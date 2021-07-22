@@ -2,63 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LanguageStoreRequest;
+use App\Http\Requests\LanguageUpdateRequest;
+use App\Http\Resources\LanguageResource;
 use App\Models\Language;
+use App\Models\Project;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class LanguageController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Project $project
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request, Project $project): AnonymousResourceCollection
     {
-        //
+        $languages = $project->languages()->paginate();
+
+        return LanguageResource::collection($languages);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param LanguageStoreRequest $request
+     * @param Project $project
+     * @return LanguageResource
      */
-    public function store(Request $request)
+    public function store(LanguageStoreRequest $request, Project $project): LanguageResource
     {
-        //
+        $language = Language::query()->make($request->all());
+
+        $project->languages()->save($language);
+
+        return new LanguageResource($language);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Language  $language
-     * @return \Illuminate\Http\Response
+     * @param Language $language
+     * @return LanguageResource
      */
-    public function show(Language $language)
+    public function show(Language $language): LanguageResource
     {
-        //
+        return new LanguageResource($language);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Language  $language
-     * @return \Illuminate\Http\Response
+     * @param LanguageUpdateRequest $request
+     * @param Language $language
+     * @return LanguageResource
      */
-    public function update(Request $request, Language $language)
+    public function update(LanguageUpdateRequest $request, Language $language): LanguageResource
     {
-        //
+        $language->update($request->all());
+
+        return new LanguageResource($language);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Language  $language
-     * @return \Illuminate\Http\Response
+     * @param Language $language
+     * @return JsonResponse
      */
-    public function destroy(Language $language)
+    public function destroy(Language $language): JsonResponse
     {
-        //
+        $language->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

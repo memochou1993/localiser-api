@@ -17,7 +17,7 @@ class ProjectController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $projects = Project::query()->paginate();
 
@@ -30,7 +30,7 @@ class ProjectController extends Controller
      * @param ProjectStoreRequest $request
      * @return ProjectResource
      */
-    public function store(ProjectStoreRequest $request)
+    public function store(ProjectStoreRequest $request): ProjectResource
     {
         $project = Project::query()->create($request->all());
 
@@ -43,7 +43,7 @@ class ProjectController extends Controller
      * @param Project $project
      * @return ProjectResource
      */
-    public function show(Project $project)
+    public function show(Project $project): ProjectResource
     {
         return new ProjectResource($project);
     }
@@ -55,7 +55,7 @@ class ProjectController extends Controller
      * @param Project $project
      * @return ProjectResource
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, Project $project): ProjectResource
     {
         $project->update($request->all());
 
@@ -68,7 +68,7 @@ class ProjectController extends Controller
      * @param Project $project
      * @return JsonResponse
      */
-    public function destroy(Project $project)
+    public function destroy(Project $project): JsonResponse
     {
         $project->delete();
 

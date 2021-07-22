@@ -17,4 +17,9 @@ class Project extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function languages()
+    {
+        return $this->hasMany(Language::class);
+    }
 }
