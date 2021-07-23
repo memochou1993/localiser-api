@@ -6,6 +6,7 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -30,14 +31,26 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @return UserResource
+     */
+    public function show(Request $request): UserResource
+    {
+        return new UserResource($request->user());
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
-     * @param User $user
      * @return UserResource
      */
-    public function update(UserUpdateRequest $request, User $user): UserResource
+    public function update(UserUpdateRequest $request): UserResource
     {
+        $user = $request->user();
+
         $user->update($request->all());
 
         return new UserResource($user);

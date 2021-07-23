@@ -15,7 +15,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('update', $this->route('user'))->allowed();
+        return true;
     }
 
     /**
@@ -32,7 +32,7 @@ class UserUpdateRequest extends FormRequest
             'email' => [
                 'email',
                 'required',
-                Rule::unique('users', 'email')->ignore($this->route('user')->id),
+                Rule::unique('users', 'email')->ignore($this->user()->id),
             ],
             'password' => [
                 'min:8',

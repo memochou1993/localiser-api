@@ -13,8 +13,9 @@ Route::apiResource('users', UserController::class)->only(['store']);
 Route::middleware([
     'auth:sanctum',
 ])->group(function () {
+    Route::get('users/me', [UserController::class, 'show']);
+    Route::patch('users/me', [UserController::class, 'update']);
     Route::delete('tokens', [TokenController::class, 'destroy']);
-    Route::apiResource('users', UserController::class)->only(['update']);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('projects.languages', LanguageController::class)->shallow();
     Route::apiResource('projects.keys', KeyController::class)->shallow();
