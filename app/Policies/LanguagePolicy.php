@@ -30,7 +30,7 @@ class LanguagePolicy
      */
     public function view(User $user, Language $language)
     {
-        return $user->projects->contains($language->project);
+        return $user->projects->contains($language->project_id);
     }
 
     /**
@@ -53,7 +53,7 @@ class LanguagePolicy
      */
     public function update(User $user, Language $language)
     {
-        return $user->projects->contains($language->project);
+        return $user->projects->contains($language->project_id);
     }
 
     /**
@@ -65,7 +65,7 @@ class LanguagePolicy
      */
     public function delete(User $user, Language $language)
     {
-        return $user->projects->contains($language->project);
+        return $user->projects->contains($language->project_id);
     }
 
     /**

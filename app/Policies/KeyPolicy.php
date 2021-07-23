@@ -30,7 +30,7 @@ class KeyPolicy
      */
     public function view(User $user, Key $key)
     {
-        return $user->projects->contains($key->project);
+        return $user->projects->contains($key->project_id);
     }
 
     /**
@@ -53,7 +53,7 @@ class KeyPolicy
      */
     public function update(User $user, Key $key)
     {
-        return $user->projects->contains($key->project);
+        return $user->projects->contains($key->project_id);
     }
 
     /**
@@ -65,7 +65,7 @@ class KeyPolicy
      */
     public function delete(User $user, Key $key)
     {
-        return $user->projects->contains($key->project);
+        return $user->projects->contains($key->project_id);
     }
 
     /**

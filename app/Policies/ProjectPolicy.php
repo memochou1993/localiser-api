@@ -30,7 +30,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $user->projects->contains($project);
+        return $user->projects->contains($project->id);
     }
 
     /**
@@ -53,7 +53,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return $user->projects->contains($project);
+        return $user->projects->contains($project->id);
     }
 
     /**
@@ -65,7 +65,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $user->projects->contains($project);
+        return $user->projects->contains($project->id);
     }
 
     /**
