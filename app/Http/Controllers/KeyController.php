@@ -2,63 +2,81 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KeyStoreRequest;
+use App\Http\Requests\KeyUpdateRequest;
+use App\Http\Resources\KeyResource;
 use App\Models\Key;
-use Illuminate\Http\Request;
+use App\Models\Project;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class KeyController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Project $project): AnonymousResourceCollection
     {
-        //
+        $keys = $project->keys()->paginate();
+
+        return KeyResource::collection($keys);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param KeyStoreRequest $request
+     * @param Project $project
+     * @return KeyResource
      */
-    public function store(Request $request)
+    public function store(KeyStoreRequest $request, Project $project): KeyResource
     {
-        //
+        $key = Key::query()->make($request->all());
+
+        $project->keys()->save($key);
+
+        return new KeyResource($key);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Key  $key
-     * @return \Illuminate\Http\Response
+     * @param Key $key
+     * @return KeyResource
      */
-    public function show(Key $key)
+    public function show(Key $key): KeyResource
     {
-        //
+        return new KeyResource($key);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Key  $key
-     * @return \Illuminate\Http\Response
+     * @param KeyUpdateRequest $request
+     * @param Key $key
+     * @return KeyResource
      */
-    public function update(Request $request, Key $key)
+    public function update(KeyUpdateRequest $request, Key $key): KeyResource
     {
-        //
+        $key->update($request->all());
+
+        return new KeyResource($key);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Key  $key
-     * @return \Illuminate\Http\Response
+     * @param Key $key
+     * @return JsonResponse
      */
-    public function destroy(Key $key)
+    public function destroy(Key $key): JsonResponse
     {
-        //
+        $key->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

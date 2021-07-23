@@ -22,4 +22,9 @@ class Project extends Model
     {
         return $this->hasMany(Language::class);
     }
+
+    public function keys()
+    {
+        return $this->hasMany(Key::class);
+    }
 }

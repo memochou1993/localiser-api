@@ -8,7 +8,6 @@ use App\Http\Resources\LanguageResource;
 use App\Models\Language;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -17,11 +16,10 @@ class LanguageController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param Project $project
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request, Project $project): AnonymousResourceCollection
+    public function index(Project $project): AnonymousResourceCollection
     {
         $languages = $project->languages()->paginate();
 

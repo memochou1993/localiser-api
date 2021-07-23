@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Language;
 use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,6 +20,7 @@ class CreateKeysTable extends Migration
             $table->string('name');
             $table->text('value')->nullable();
             $table->foreignIdFor(Project::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Language::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
