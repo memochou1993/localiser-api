@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Token;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        Sanctum::ignoreMigrations();
     }
 
     /**
@@ -26,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Sanctum::usePersonalAccessTokenModel(Token::class);
+
+        Gate::guessPolicyNamesUsing(function ($model) {
+            return 'App\\Policies\\'.class_basename($model).'Policy';
+        });
     }
 }

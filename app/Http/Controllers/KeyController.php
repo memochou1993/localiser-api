@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KeyIndexRequest;
 use App\Http\Requests\KeyStoreRequest;
 use App\Http\Requests\KeyUpdateRequest;
 use App\Http\Resources\KeyResource;
@@ -14,12 +15,20 @@ use Illuminate\Http\Response;
 class KeyController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     */
+    public function __construct() {
+        $this->authorizeResource(Key::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param KeyIndexRequest $request
      * @param Project $project
      * @return AnonymousResourceCollection
      */
-    public function index(Project $project): AnonymousResourceCollection
+    public function index(KeyIndexRequest $request, Project $project): AnonymousResourceCollection
     {
         $keys = $project->keys()->paginate();
 

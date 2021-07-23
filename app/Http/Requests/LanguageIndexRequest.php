@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
 
-class KeyStoreRequest extends FormRequest
+class LanguageIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +25,7 @@ class KeyStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'language_id' => [
-                'required',
-                Rule::in($this->route('project')->languages->pluck('id')->toArray()),
-            ],
+            //
         ];
     }
 }

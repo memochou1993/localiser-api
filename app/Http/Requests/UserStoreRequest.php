@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
-class KeyStoreRequest extends FormRequest
+class UserStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +14,7 @@ class KeyStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('view', $this->route('project'))->allowed();
+        return true;
     }
 
     /**
@@ -26,10 +25,17 @@ class KeyStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'language_id' => [
+            'name' => [
                 'required',
-                Rule::in($this->route('project')->languages->pluck('id')->toArray()),
+            ],
+            'email' => [
+                'email',
+                'required',
+                Rule::unique('users', 'email'),
+            ],
+            'password' => [
+                'min:8',
+                'required',
             ],
         ];
     }

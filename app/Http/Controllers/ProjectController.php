@@ -13,13 +13,21 @@ use Symfony\Component\HttpFoundation\Response;
 class ProjectController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     */
+    public function __construct() {
+        $this->authorizeResource(Project::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AnonymousResourceCollection
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $projects = Project::query()->paginate();
+        $projects = $request->user()->projects()->paginate();
 
         return ProjectResource::collection($projects);
     }
@@ -32,7 +40,7 @@ class ProjectController extends Controller
      */
     public function store(ProjectStoreRequest $request): ProjectResource
     {
-        $project = Project::query()->create($request->all());
+        $project = $request->user()->projects()->create($request->all());
 
         return new ProjectResource($project);
     }

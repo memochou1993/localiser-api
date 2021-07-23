@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LanguageIndexRequest;
 use App\Http\Requests\LanguageStoreRequest;
 use App\Http\Requests\LanguageUpdateRequest;
 use App\Http\Resources\LanguageResource;
@@ -14,12 +15,20 @@ use Illuminate\Http\Response;
 class LanguageController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     */
+    public function __construct() {
+        $this->authorizeResource(Language::class);
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param LanguageIndexRequest $request
      * @param Project $project
      * @return AnonymousResourceCollection
      */
-    public function index(Project $project): AnonymousResourceCollection
+    public function index(LanguageIndexRequest $request, Project $project): AnonymousResourceCollection
     {
         $languages = $project->languages()->paginate();
 

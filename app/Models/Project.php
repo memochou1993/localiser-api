@@ -18,6 +18,11 @@ class Project extends Model
         'name',
     ];
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function languages()
     {
         return $this->hasMany(Language::class);
