@@ -27,7 +27,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $projects = $request->user()->projects()->paginate();
+        $projects = $request->user()->projects()->with(['languages'])->get();
 
         return ProjectResource::collection($projects);
     }

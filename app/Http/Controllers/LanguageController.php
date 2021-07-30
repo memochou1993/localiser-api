@@ -30,7 +30,7 @@ class LanguageController extends Controller
      */
     public function index(LanguageIndexRequest $request, Project $project): AnonymousResourceCollection
     {
-        $languages = $project->languages()->paginate();
+        $languages = $project->languages()->get();
 
         return LanguageResource::collection($languages);
     }
