@@ -20,8 +20,15 @@ class Key extends Model
      */
     protected $fillable = [
         'name',
-        'value',
-        'language_id',
+    ];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'values.language',
     ];
 
     public function project()
@@ -32,5 +39,10 @@ class Key extends Model
     public function language()
     {
         return $this->belongsTo(Language::class);
+    }
+
+    public function values()
+    {
+        return $this->hasMany(Value::class);
     }
 }

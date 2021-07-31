@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KeyResource extends JsonResource
+class ValueResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,8 @@ class KeyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'values' => ValueResource::collection($this->whenLoaded('values')),
+            'text' => $this->text,
+            'language' => new LanguageResource($this->whenLoaded('language')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

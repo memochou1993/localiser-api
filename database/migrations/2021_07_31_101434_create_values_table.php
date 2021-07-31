@@ -1,12 +1,12 @@
 <?php
 
+use App\Models\Key;
 use App\Models\Language;
-use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKeysTable extends Migration
+class CreateValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +15,11 @@ class CreateKeysTable extends Migration
      */
     public function up()
     {
-        Schema::create('keys', function (Blueprint $table) {
+        Schema::create('values', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignIdFor(Project::class)->constrained()->onDelete('cascade');
+            $table->text('text')->nullable();
+            $table->foreignIdFor(Key::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Language::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateKeysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('keys');
+        Schema::dropIfExists('values');
     }
 }
