@@ -24,6 +24,15 @@ class Project extends Model
         'name',
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'languages',
+    ];
+
     public function users()
     {
         return $this->belongsToMany(User::class);
