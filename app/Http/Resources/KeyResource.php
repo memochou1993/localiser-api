@@ -18,6 +18,7 @@ class KeyResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'value' => $this->value,
+            'language' => new LanguageResource($this->whenLoaded('language')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

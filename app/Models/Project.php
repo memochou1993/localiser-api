@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property Collection $languages
+ * @property Collection $keys
  */
 class Project extends Model
 {
