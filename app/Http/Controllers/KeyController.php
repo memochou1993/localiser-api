@@ -30,7 +30,7 @@ class KeyController extends Controller
      */
     public function index(KeyIndexRequest $request, Project $project): AnonymousResourceCollection
     {
-        $keys = $project->keys()->paginate();
+        $keys = $project->keys()->get();
 
         return KeyResource::collection($keys);
     }
