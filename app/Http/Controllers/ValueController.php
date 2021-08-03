@@ -43,7 +43,7 @@ class ValueController extends Controller
      */
     public function update(ValueUpdateRequest $request, Value $value): ValueResource
     {
-        $value->update($request->all());
+        $value->update($request->except(['language_id']));
 
         return new ValueResource($value);
     }

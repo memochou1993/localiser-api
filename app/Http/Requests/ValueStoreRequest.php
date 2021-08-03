@@ -28,7 +28,7 @@ class ValueStoreRequest extends FormRequest
         return [
             'language_id' => [
                 'required',
-                Rule::in($this->route('key')->project->languages->pluck('id')->toArray()),
+                Rule::in($this->route('key')->project->languages->pluck('id')),
             ],
         ];
     }
