@@ -27,7 +27,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $projects = $request->user()->projects()->get();
+        $projects = $request->user()->projects()->with(['languages'])->get();
 
         return ProjectResource::collection($projects);
     }
@@ -53,7 +53,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project): ProjectResource
     {
-        return new ProjectResource($project);
+        return new ProjectResource(Project::with(['languages'])->find($project->id));
     }
 
     /**
