@@ -30,7 +30,7 @@ class KeyController extends Controller
      */
     public function index(KeyIndexRequest $request, Project $project): AnonymousResourceCollection
     {
-        $keys = $project->keys()->get();
+        $keys = $project->keys()->with(['values.language'])->get();
 
         return KeyResource::collection($keys);
     }
@@ -59,7 +59,7 @@ class KeyController extends Controller
      */
     public function show(Key $key): KeyResource
     {
-        return new KeyResource($key);
+        return new KeyResource(Key::with(['values.language'])->find($key->id));
     }
 
     /**

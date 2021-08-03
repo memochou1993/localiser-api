@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int $id
  * @property int $project_id
  * @property Project $project
  */
@@ -20,15 +21,6 @@ class Key extends Model
      */
     protected $fillable = [
         'name',
-    ];
-
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = [
-        'values.language',
     ];
 
     public function project()
