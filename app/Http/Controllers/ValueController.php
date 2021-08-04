@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValueIndexRequest;
 use App\Http\Requests\ValueStoreRequest;
 use App\Http\Requests\ValueUpdateRequest;
 use App\Http\Resources\ValueResource;
 use App\Models\Key;
 use App\Models\Value;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class ValueController extends Controller
 {
@@ -17,7 +21,19 @@ class ValueController extends Controller
         $this->authorizeResource(Value::class);
     }
 
-    // TODO: index
+    /**
+     * Display a listing of the resource.
+     *
+     * @param ValueIndexRequest $request
+     * @param Key $key
+     * @return AnonymousResourceCollection
+     */
+    public function index(ValueIndexRequest $request, Key $key): AnonymousResourceCollection
+    {
+        $values = $key->values()->with(['language'])->get();
+
+        return ValueResource::collection($values);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,6 +52,17 @@ class ValueController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param Value $value
+     * @return ValueResource
+     */
+    public function show(Value $value): ValueResource
+    {
+        return new ValueResource(Value::with(['language'])->find($value->id));
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param ValueUpdateRequest $request
@@ -49,5 +76,20 @@ class ValueController extends Controller
         $value->update($request->except(['language_id']));
 
         return new ValueResource($value);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Value $value
+     * @return JsonResponse
+     */
+    public function destroy(Value $value): JsonResponse
+    {
+        $value->key->project()->touch();
+
+        $value->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -18,7 +18,7 @@ class ValuePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class ValuePolicy
      */
     public function view(User $user, Value $value)
     {
-        //
+        return $user->projects->contains($value->key->project_id);
     }
 
     /**
@@ -65,7 +65,7 @@ class ValuePolicy
      */
     public function delete(User $user, Value $value)
     {
-        //
+        return $user->projects->contains($value->key->project_id);
     }
 
     /**
