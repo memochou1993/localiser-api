@@ -46,6 +46,8 @@ class ValueController extends Controller
     {
         $key->project()->touch();
 
+        $key->touch();
+
         $value = $key->values()->create($request->all());
 
         return new ValueResource($value);
@@ -73,6 +75,8 @@ class ValueController extends Controller
     {
         $value->key->project()->touch();
 
+        $value->key()->touch();
+
         $value->update($request->except(['language_id']));
 
         return new ValueResource($value);
@@ -87,6 +91,8 @@ class ValueController extends Controller
     public function destroy(Value $value): JsonResponse
     {
         $value->key->project()->touch();
+
+        $value->key()->touch();
 
         $value->delete();
 

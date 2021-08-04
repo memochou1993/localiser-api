@@ -30,7 +30,11 @@ class KeyController extends Controller
      */
     public function index(KeyIndexRequest $request, Project $project): AnonymousResourceCollection
     {
-        $keys = $project->keys()->with(['values.language'])->get();
+        $keys = $project
+            ->keys()
+            ->with(['values.language'])
+            ->orderByDesc('updated_at')
+            ->get();
 
         return KeyResource::collection($keys);
     }
