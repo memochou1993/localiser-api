@@ -28,6 +28,8 @@ class ValueController extends Controller
      */
     public function store(ValueStoreRequest $request, Key $key): ValueResource
     {
+        $key->project()->touch();
+
         $value = $key->values()->create($request->all());
 
         return new ValueResource($value);
@@ -42,6 +44,8 @@ class ValueController extends Controller
      */
     public function update(ValueUpdateRequest $request, Value $value): ValueResource
     {
+        $value->key->project()->touch();
+
         $value->update($request->except(['language_id']));
 
         return new ValueResource($value);

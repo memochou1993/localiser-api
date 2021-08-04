@@ -44,6 +44,8 @@ class LanguageController extends Controller
      */
     public function store(LanguageStoreRequest $request, Project $project): LanguageResource
     {
+        $project->touch();
+
         $language = $project->languages()->create($request->all());
 
         return new LanguageResource($language);
@@ -69,6 +71,8 @@ class LanguageController extends Controller
      */
     public function update(LanguageUpdateRequest $request, Language $language): LanguageResource
     {
+        $language->project()->touch();
+
         $language->update($request->all());
 
         return new LanguageResource($language);
@@ -82,6 +86,8 @@ class LanguageController extends Controller
      */
     public function destroy(Language $language): JsonResponse
     {
+        $language->project()->touch();
+
         $language->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT);

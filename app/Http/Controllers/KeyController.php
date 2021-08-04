@@ -44,6 +44,8 @@ class KeyController extends Controller
      */
     public function store(KeyStoreRequest $request, Project $project): KeyResource
     {
+        $project->touch();
+
         $key = $project->keys()->create($request->all());
 
         return new KeyResource($key);
@@ -69,6 +71,8 @@ class KeyController extends Controller
      */
     public function update(KeyUpdateRequest $request, Key $key): KeyResource
     {
+        $key->project()->touch();
+
         $key->update($request->all());
 
         return new KeyResource($key);
@@ -82,6 +86,8 @@ class KeyController extends Controller
      */
     public function destroy(Key $key): JsonResponse
     {
+        $key->project()->touch();
+
         $key->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
