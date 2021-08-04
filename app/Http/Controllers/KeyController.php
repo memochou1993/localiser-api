@@ -44,9 +44,7 @@ class KeyController extends Controller
      */
     public function store(KeyStoreRequest $request, Project $project): KeyResource
     {
-        $key = Key::query()->make($request->all());
-
-        $project->keys()->save($key);
+        $key = $project->keys()->create($request->all());
 
         return new KeyResource($key);
     }

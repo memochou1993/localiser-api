@@ -44,9 +44,7 @@ class LanguageController extends Controller
      */
     public function store(LanguageStoreRequest $request, Project $project): LanguageResource
     {
-        $language = Language::query()->make($request->all());
-
-        $project->languages()->save($language);
+        $language = $project->languages()->create($request->all());
 
         return new LanguageResource($language);
     }

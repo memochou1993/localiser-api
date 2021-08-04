@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
@@ -59,11 +60,11 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param ProjectUpdateRequest $request
      * @param Project $project
      * @return ProjectResource
      */
-    public function update(Request $request, Project $project): ProjectResource
+    public function update(ProjectUpdateRequest $request, Project $project): ProjectResource
     {
         $project->update($request->all());
 

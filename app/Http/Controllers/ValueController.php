@@ -17,6 +17,8 @@ class ValueController extends Controller
         $this->authorizeResource(Value::class);
     }
 
+    // TODO: index
+
     /**
      * Store a newly created resource in storage.
      *
@@ -26,10 +28,7 @@ class ValueController extends Controller
      */
     public function store(ValueStoreRequest $request, Key $key): ValueResource
     {
-        /** @var Value $value */
-        $value = Value::query()->make($request->all());
-
-        $key->values()->save($value);
+        $value = $key->values()->create($request->all());
 
         return new ValueResource($value);
     }
