@@ -33,7 +33,7 @@ class KeyController extends Controller
         $keys = $project
             ->keys()
             ->with(['values.language'])
-            ->orderByDesc('updated_at')
+            ->orderBy('name')
             ->get();
 
         return KeyResource::collection($keys);
