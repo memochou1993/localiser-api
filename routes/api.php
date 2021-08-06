@@ -8,8 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValueController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('tokens', [TokenController::class, 'store']);
 Route::apiResource('users', UserController::class)->only(['store']);
+Route::post('tokens', [TokenController::class, 'store']);
 
 Route::middleware([
     'auth:sanctum',

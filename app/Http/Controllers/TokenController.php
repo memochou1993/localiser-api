@@ -41,7 +41,7 @@ class TokenController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        $request->user()->tokens()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
