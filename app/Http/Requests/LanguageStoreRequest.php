@@ -25,7 +25,9 @@ class LanguageStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => [
+                'required',
+            ],
         ];
     }
 }

@@ -48,6 +48,12 @@ class ProjectController extends Controller
     {
         $project = $request->user()->projects()->create($request->all());
 
+        $languages = $request->input('languages', []);
+
+        foreach ($languages as $language) {
+            $project->languages()->create($language);
+        }
+
         return new ProjectResource($project);
     }
 

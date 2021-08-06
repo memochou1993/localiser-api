@@ -24,7 +24,15 @@ class ProjectStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => [
+                'required',
+            ],
+            'languages' => [
+                'array',
+            ],
+            'languages.*.name' => [
+                'required_with:languages',
+            ],
         ];
     }
 }
