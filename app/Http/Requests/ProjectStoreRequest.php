@@ -33,6 +33,9 @@ class ProjectStoreRequest extends FormRequest
             'languages.*.name' => [
                 'required_with:languages',
             ],
+            'languages.*.code' => [
+                'required_with:languages',
+            ],
         ];
     }
 }

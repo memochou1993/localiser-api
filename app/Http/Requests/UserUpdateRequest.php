@@ -26,16 +26,14 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => [
-                'required',
+                'min:1',
             ],
             'email' => [
                 'email',
-                'required',
                 Rule::unique('users', 'email')->ignore($this->user()->id),
             ],
             'password' => [
                 'min:8',
-                'required',
             ],
         ];
     }

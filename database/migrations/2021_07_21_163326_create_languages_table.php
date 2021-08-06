@@ -17,6 +17,7 @@ class CreateLanguagesTable extends Migration
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code');
             $table->foreignIdFor(Project::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });

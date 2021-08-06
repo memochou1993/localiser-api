@@ -25,7 +25,10 @@ class LanguageUpdateRequest extends FormRequest
     {
         return [
             'name' => [
-                'required',
+                'min:1',
+            ],
+            'code' => [
+                'min:1',
             ],
         ];
     }

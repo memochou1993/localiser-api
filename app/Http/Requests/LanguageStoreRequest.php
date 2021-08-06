@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class LanguageStoreRequest extends FormRequest
 {
@@ -24,9 +25,18 @@ class LanguageStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $project = $this->route('project');
+
         return [
             'name' => [
                 'required',
+                Rule::unique('languages', 'name')
+                    ->where('project_id', $project->id),
+            ],
+            'code' => [
+                'required',
+                Rule::unique('languages', 'code')
+                    ->where('project_id', $project->id),
             ],
         ];
     }
