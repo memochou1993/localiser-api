@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LanguageUpdateRequest extends FormRequest
 {
@@ -23,12 +24,20 @@ class LanguageUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $language = $this->route('language');
+
         return [
             'name' => [
                 'min:1',
+                Rule::unique('languages', 'name')
+                    ->where('project_id', $language->project->id)
+                    ->ignore($language->id),
             ],
             'code' => [
                 'min:1',
+                Rule::unique('languages', 'code')
+                    ->where('project_id', $language->project->id)
+                    ->ignore($language->id),
             ],
         ];
     }

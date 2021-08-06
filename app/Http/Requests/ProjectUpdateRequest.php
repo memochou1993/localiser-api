@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProjectUpdateRequest extends FormRequest
 {
@@ -26,6 +27,8 @@ class ProjectUpdateRequest extends FormRequest
         return [
             'name' => [
                 'min:1',
+                Rule::unique('projects', 'name')
+                    ->ignore($this->route('project')->id),
             ],
         ];
     }

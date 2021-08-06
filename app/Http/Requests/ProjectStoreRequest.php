@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProjectStoreRequest extends FormRequest
 {
@@ -26,6 +27,7 @@ class ProjectStoreRequest extends FormRequest
         return [
             'name' => [
                 'required',
+                Rule::unique('projects', 'name'),
             ],
             'languages' => [
                 'array',
