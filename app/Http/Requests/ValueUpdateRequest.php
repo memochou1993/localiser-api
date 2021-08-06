@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ValueUpdateRequest extends FormRequest
 {
@@ -26,5 +27,17 @@ class ValueUpdateRequest extends FormRequest
         return [
             //
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'language_id' => $this->route('value')->language_id,
+        ]);
     }
 }

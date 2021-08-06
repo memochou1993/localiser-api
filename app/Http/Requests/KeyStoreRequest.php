@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class KeyStoreRequest extends FormRequest
 {
@@ -24,9 +25,13 @@ class KeyStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $project = $this->route('project');
+
         return [
             'name' => [
                 'required',
+                Rule::unique('keys', 'name')
+                    ->where('project_id', $project->id),
             ],
         ];
     }

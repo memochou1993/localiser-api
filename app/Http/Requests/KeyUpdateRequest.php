@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class KeyUpdateRequest extends FormRequest
 {
@@ -23,9 +24,14 @@ class KeyUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $key = $this->route('key');
+
         return [
             'name' => [
                 'min:1',
+                Rule::unique('keys', 'name')
+                    ->where('project_id', $key->project->id)
+                    ->ignore($key->id),
             ],
         ];
     }

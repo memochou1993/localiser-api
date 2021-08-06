@@ -77,7 +77,7 @@ class ValueController extends Controller
 
         $value->key()->touch();
 
-        $value->update($request->except(['language_id']));
+        $value->update($request->all());
 
         return new ValueResource($value);
     }

@@ -25,10 +25,13 @@ class ValueStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $key = $this->route('key');
+
         return [
             'language_id' => [
                 'required',
-                Rule::in($this->route('key')->project->languages->pluck('id')),
+                Rule::in($key->project->languages->pluck('id')),
+                Rule::notIn($key->values->pluck('language_id')),
             ],
         ];
     }

@@ -24,11 +24,13 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $project = $this->route('project');
+
         return [
             'name' => [
                 'min:1',
                 Rule::unique('projects', 'name')
-                    ->ignore($this->route('project')->id),
+                    ->ignore($project->id),
             ],
         ];
     }
