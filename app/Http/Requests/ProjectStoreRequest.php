@@ -27,7 +27,6 @@ class ProjectStoreRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                Rule::unique('projects', 'name'),
             ],
             'languages' => [
                 'array',
