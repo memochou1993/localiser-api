@@ -65,7 +65,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project): ProjectResource
     {
-        return new ProjectResource(Project::with(['languages'])->find($project->id));
+        return new ProjectResource(Project::with(['users', 'languages'])->find($project->id));
     }
 
     /**

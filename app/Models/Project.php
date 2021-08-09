@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
+ * @property Collection $users
  * @property Collection $languages
  * @property Collection $keys
  */

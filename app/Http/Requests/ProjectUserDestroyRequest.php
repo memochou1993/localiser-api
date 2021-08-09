@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
-class ValueUpdateRequest extends FormRequest
+class ProjectUserDestroyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class ValueUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Gate::authorize('view', $this->route('project'))->allowed();
     }
 
     /**
@@ -26,17 +27,5 @@ class ValueUpdateRequest extends FormRequest
         return [
             //
         ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'language_id' => $this->route('value')->language_id,
-        ]);
     }
 }
