@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class ProjectUserUpdateRequest extends FormRequest
+class ProjectUserStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,13 @@ class ProjectUserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'users' => [
+                'array',
+                'required',
+            ],
+            'users.*.id' => [
+                'required_with:users',
+            ],
         ];
     }
 }

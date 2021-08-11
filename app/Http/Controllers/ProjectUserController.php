@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectUserDestroyRequest;
-use App\Http\Requests\ProjectUserUpdateRequest;
+use App\Http\Requests\ProjectUserStoreRequest;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -12,23 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 class ProjectUserController extends Controller
 {
     /**
-     * Update the specified resource in storage.
+     * Store a newly created resource in storage.
      *
-     * @param ProjectUserUpdateRequest $request
+     * @param ProjectUserStoreRequest $request
      * @param Project $project
-     * @param User $user
      * @return JsonResponse
      */
-    public function update(ProjectUserUpdateRequest $request, Project $project, User $user): JsonResponse
+    public function store(ProjectUserStoreRequest $request, Project $project): JsonResponse
     {
-        if ($request->user()->id === $user->id) {
-            abort(Response::HTTP_BAD_REQUEST);
-        }
+        $users = $request->input('users');
 
-        if (!$project->users->contains($user)) {
-            $project->users()->attach($user->id);
-            return response()->json(null, Response::HTTP_OK);
-        }
+        $project->users()->syncWithoutDetaching(collect($users)->pluck('id'));
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }

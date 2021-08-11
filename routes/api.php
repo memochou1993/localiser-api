@@ -22,5 +22,5 @@ Route::middleware([
     Route::apiResource('projects.languages', LanguageController::class)->shallow();
     Route::apiResource('projects.keys', KeyController::class)->shallow();
     Route::apiResource('keys.values', ValueController::class)->shallow();
-    Route::apiResource('projects.users', ProjectUserController::class)->only('update', 'destroy');
+    Route::apiResource('projects.users', ProjectUserController::class)->only('store', 'destroy');
 });
