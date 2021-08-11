@@ -9,7 +9,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValueController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('users', UserController::class)->only(['store']);
 Route::post('tokens', [TokenController::class, 'store']);
 
 Route::middleware([
@@ -17,6 +16,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('users/me', [UserController::class, 'show']);
     Route::patch('users/me', [UserController::class, 'update']);
+    Route::apiResource('users', UserController::class)->only(['index', 'store']);
     Route::delete('tokens', [TokenController::class, 'destroy']);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('projects.languages', LanguageController::class)->shallow();
