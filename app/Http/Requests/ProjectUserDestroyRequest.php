@@ -14,7 +14,7 @@ class ProjectUserDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('view', $this->route('project'))->allowed();
+        return Gate::authorize('update', $this->route('project'))->allowed();
     }
 
     /**

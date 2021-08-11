@@ -15,7 +15,7 @@ class ValueStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('view', $this->route('key'))->allowed();
+        return Gate::authorize('update', $this->route('key'))->allowed();
     }
 
     /**
