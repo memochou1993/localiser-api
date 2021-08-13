@@ -15,7 +15,7 @@ class UserController extends Controller
      * Instantiate a new controller instance.
      */
     public function __construct() {
-        //
+        $this->authorizeResource(User::class);
     }
 
     /**
@@ -47,23 +47,23 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param Request $request
+     * @param User $user
      * @return UserResource
      */
-    public function show(Request $request): UserResource
+    public function show(Request $request, User $user): UserResource
     {
-        return new UserResource($request->user());
+        return new UserResource($user);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
+     * @param User $user
      * @return UserResource
      */
-    public function update(UserUpdateRequest $request): UserResource
+    public function update(UserUpdateRequest $request, User $user): UserResource
     {
-        $user = $request->user();
-
         $user->update($request->all());
 
         return new UserResource($user);

@@ -7,6 +7,8 @@ use App\Http\Controllers\ProjectUserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValueController;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('tokens', [TokenController::class, 'store']);
@@ -14,9 +16,8 @@ Route::post('tokens', [TokenController::class, 'store']);
 Route::middleware([
     'auth:sanctum',
 ])->group(function () {
-    Route::get('users/me', [UserController::class, 'show']);
-    Route::patch('users/me', [UserController::class, 'update']);
-    Route::apiResource('users', UserController::class)->only(['index', 'store']);
+    Route::get('users/me', function (Request $request) { return new UserResource($request->user()); });
+    Route::apiResource('users', UserController::class)->except('destroy');
     Route::delete('tokens', [TokenController::class, 'destroy']);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('projects.languages', LanguageController::class)->shallow();
