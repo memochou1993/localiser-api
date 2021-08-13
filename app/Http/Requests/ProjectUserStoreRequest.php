@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class ProjectUserStoreRequest extends FormRequest
 {
@@ -31,6 +32,7 @@ class ProjectUserStoreRequest extends FormRequest
             ],
             'users.*.id' => [
                 'required_with:users',
+                Rule::exists('users'),
             ],
         ];
     }

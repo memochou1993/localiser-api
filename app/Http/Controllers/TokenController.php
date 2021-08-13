@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 class TokenController extends Controller
 {
     /**
+     * Store a newly created resource in storage.
+     *
      * @param TokenStoreRequest $request
      * @return JsonResponse
      * @throws AuthenticationException
@@ -36,6 +38,8 @@ class TokenController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
      * @param Request $request
      * @return JsonResponse
      */
