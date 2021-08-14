@@ -28,7 +28,15 @@ class TokenController extends Controller
             throw new AuthenticationException();
         }
 
-        $token = $user->createToken('')->plainTextToken;
+        $abilities = collect($user->roles)
+            ->map(function ($role) {
+                return config('roles')[$role];
+            })
+            ->collapse()
+            ->unique()
+            ->toArray();
+
+        $token = $user->createToken('', $abilities)->plainTextToken;
 
         return response()->json([
             'data' => [
