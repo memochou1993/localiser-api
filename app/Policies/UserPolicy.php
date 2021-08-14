@@ -66,7 +66,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->currentAccessToken()->can('delete-users');
+        return $user->currentAccessToken()->can('delete-users')
+            && $user->id !== $model->id;
     }
 
     /**
