@@ -17,7 +17,7 @@ Route::middleware([
     'auth:sanctum',
 ])->group(function () {
     Route::get('users/me', function (Request $request) { return new UserResource($request->user()); });
-    Route::apiResource('users', UserController::class)->except('destroy');
+    Route::apiResource('users', UserController::class);
     Route::delete('tokens', [TokenController::class, 'destroy']);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('projects.languages', LanguageController::class)->shallow();

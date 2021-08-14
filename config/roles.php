@@ -7,6 +7,7 @@ return [
         'create-users',
         'update-users',
         'delete-users',
+        'restore-users',
     ],
 
     'user' => [

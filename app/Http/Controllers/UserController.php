@@ -6,8 +6,11 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -25,7 +28,12 @@ class UserController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $users = User::query()->get();
+        /** @var User $auth */
+        $auth = Auth::user();
+
+        $users = $auth->currentAccessToken()->can('restore-users')
+            ? User::withTrashed()->get()
+            : User::query()->get();
 
         return UserResource::collection($users);
     }
@@ -64,8 +72,28 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user): UserResource
     {
-        $user->update($request->all());
+        /** @var User $auth */
+        $auth = Auth::user();
+
+        $attributes = $auth->currentAccessToken()->can('update-users')
+            ? $request->all()
+            : $request->except('roles');
+
+        $user->update($attributes);
 
         return new UserResource($user);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function destroy(User $user): JsonResponse
+    {
+        $user->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
