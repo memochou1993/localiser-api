@@ -19,6 +19,7 @@ class CreateProjectUserTable extends Migration
             $table->id();
             $table->foreignIdFor(Project::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+            $table->json('roles')->nullable();
             $table->timestamps();
         });
     }

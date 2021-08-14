@@ -34,6 +34,7 @@ class TokenController extends Controller
             })
             ->collapse()
             ->unique()
+            ->values()
             ->toArray();
 
         $token = $user->createToken('', $abilities)->plainTextToken;

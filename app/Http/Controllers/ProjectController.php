@@ -6,9 +6,11 @@ use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
@@ -46,7 +48,14 @@ class ProjectController extends Controller
      */
     public function store(ProjectStoreRequest $request): ProjectResource
     {
-        $project = $request->user()->projects()->create($request->all());
+        /** @var Project $project */
+        $project = Project::query()->create($request->all());
+
+        $request->user()->projects()->attach($project, [
+            'roles' => json_encode([
+                'owner',
+            ]),
+        ]);
 
         $languages = $request->input('languages', []);
 
@@ -65,7 +74,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project): ProjectResource
     {
-        return new ProjectResource(Project::with(['users', 'languages'])->find($project->id));
+        /** @var User $auth */
+        $auth = Auth::user();
+
+        return new ProjectResource($auth->projects()->with(['users', 'languages'])->find($project->id));
     }
 
     /**

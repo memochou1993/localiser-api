@@ -20,9 +20,17 @@ class ProjectUserController extends Controller
      */
     public function store(ProjectUserStoreRequest $request, Project $project): JsonResponse
     {
-        $users = $request->input('users');
+        $users = collect($request->input('users'))
+            ->mapWithKeys(function ($user) {
+                return [
+                    $user['id'] => [
+                        'roles' => json_encode($user['roles']),
+                    ]
+                ];
+            })
+            ->toArray();
 
-        $project->users()->syncWithoutDetaching(collect($users)->pluck('id'));
+        $project->users()->syncWithoutDetaching($users);
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
