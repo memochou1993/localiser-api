@@ -77,7 +77,7 @@ class UserController extends Controller
 
         $attributes = $auth->currentAccessToken()->can('update-users')
             ? $request->all()
-            : $request->except('roles');
+            : $request->except('role');
 
         $user->update($attributes);
 

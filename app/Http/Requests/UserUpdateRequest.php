@@ -36,6 +36,9 @@ class UserUpdateRequest extends FormRequest
             'password' => [
                 'min:8',
             ],
+            'role' => [
+                Rule::in(collect(config('roles'))->keys()),
+            ],
         ];
     }
 }

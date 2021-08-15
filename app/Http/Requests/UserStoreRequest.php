@@ -37,8 +37,8 @@ class UserStoreRequest extends FormRequest
                 'min:8',
                 'required',
             ],
-            'roles' => [
-                'array',
+            'role' => [
+                'required',
                 Rule::in(collect(config('roles'))->keys()),
             ],
         ];
