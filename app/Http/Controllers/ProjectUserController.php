@@ -24,7 +24,7 @@ class ProjectUserController extends Controller
             ->mapWithKeys(function ($user) {
                 return [
                     $user['id'] => [
-                        'roles' => json_encode($user['roles']),
+                        'role' => $user['role'],
                     ]
                 ];
             })

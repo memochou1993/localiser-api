@@ -34,10 +34,8 @@ class ProjectUserStoreRequest extends FormRequest
                 'required_with:users',
                 Rule::exists('users'),
             ],
-            'users.*.roles' => [
-                'array',
-            ],
-            'users.*.roles.*' => [
+            'users.*.role' => [
+                'required',
                 Rule::in(collect(config('roles'))->keys()),
             ],
         ];

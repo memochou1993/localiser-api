@@ -27,7 +27,7 @@ class Project extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot(['roles']);
+        return $this->belongsToMany(User::class)->withPivot(['role']);
     }
 
     public function languages()

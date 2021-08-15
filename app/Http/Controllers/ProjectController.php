@@ -52,9 +52,7 @@ class ProjectController extends Controller
         $project = Project::query()->create($request->all());
 
         $request->user()->projects()->attach($project, [
-            'roles' => json_encode([
-                'owner',
-            ]),
+            'role' => 'owner',
         ]);
 
         $languages = $request->input('languages', []);
