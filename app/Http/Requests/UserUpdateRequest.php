@@ -26,6 +26,10 @@ class UserUpdateRequest extends FormRequest
     {
         $user = $this->route('user');
 
+        $allowedRoles = collect(config('roles'))
+            ->where('scope', 'system')
+            ->keys();
+
         return [
             'name' => [
                 'min:1',
@@ -39,7 +43,7 @@ class UserUpdateRequest extends FormRequest
                 'min:8',
             ],
             'role' => [
-                Rule::in(collect(config('roles'))->keys()),
+                Rule::in($allowedRoles),
             ],
         ];
     }

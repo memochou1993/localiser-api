@@ -88,11 +88,12 @@ class UserController extends Controller
                     throw new AccessDeniedHttpException('This action is unauthorized.');
                 }
             }
+            if ($role !== $user->role) {
+                $user->tokens()->delete();
+            }
         }
 
         $user->update($request->all());
-
-        $user->tokens()->delete();
 
         return new UserResource($user);
     }

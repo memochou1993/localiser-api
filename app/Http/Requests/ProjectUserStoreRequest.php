@@ -25,6 +25,10 @@ class ProjectUserStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $allowedRoles = collect(config('roles'))
+            ->where('scope', 'project')
+            ->keys();
+
         return [
             'users' => [
                 'array',
@@ -36,7 +40,7 @@ class ProjectUserStoreRequest extends FormRequest
             ],
             'users.*.role' => [
                 'required',
-                Rule::in(collect(config('roles'))->keys()),
+                Rule::in($allowedRoles),
             ],
         ];
     }

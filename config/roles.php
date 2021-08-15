@@ -5,8 +5,8 @@ use App\Enums\Role;
 return [
 
     Role::SYSTEM_ADMIN => [
-
         'name' => 'Admin',
+        'scope' => 'system',
         'abilities' => [
             'view-users',
             'create-users',
@@ -14,50 +14,60 @@ return [
             'delete-users',
             'restore-users',
         ],
-
     ],
 
     Role::SYSTEM_USER => [
-
         'name' => 'User',
+        'scope' => 'system',
         'abilities' => [
             'view-users',
         ],
-
     ],
 
     Role::PROJECT_OWNER => [
-        'view-projects',
-        'create-projects',
-        'update-projects',
-        'delete-projects',
-        'restore-projects',
-        'view-keys',
-        'create-keys',
-        'update-keys',
-        'delete-keys',
-        'view-values',
-        'create-values',
-        'update-values',
-        'delete-values',
+        'name' => 'Owner',
+        'scope' => 'project',
+        'abilities' => [
+            'view-projects',
+            'create-projects',
+            'update-projects',
+            'delete-projects',
+            'restore-projects',
+            'view-keys',
+            'create-keys',
+            'update-keys',
+            'delete-keys',
+            'view-values',
+            'create-values',
+            'update-values',
+            'delete-values',
+        ],
     ],
 
     Role::PROJECT_MAINTAINER => [
-        'view-projects',
-        'create-projects',
-        'update-projects',
-        'view-keys',
-        'create-keys',
-        'update-keys',
-        'view-values',
-        'create-values',
-        'update-values',
+        'name' => 'Maintainer',
+        'scope' => 'project',
+        'abilities' => [
+            'view-projects',
+            'create-projects',
+            'update-projects',
+            'view-keys',
+            'create-keys',
+            'update-keys',
+            'view-values',
+            'create-values',
+            'update-values',
+        ],
     ],
 
     Role::PROJECT_REVIEWER => [
-        'view-projects',
-        'view-keys',
-        'view-values',
+        'name' => 'Maintainer',
+        'scope' => 'project',
+        'abilities' => [
+            'view-projects',
+            'view-keys',
+            'view-values',
+        ],
     ],
 
 ];

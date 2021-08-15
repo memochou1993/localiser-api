@@ -24,6 +24,10 @@ class UserStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $allowedRoles = collect(config('roles'))
+            ->where('scope', 'system')
+            ->keys();
+
         return [
             'name' => [
                 'required',
@@ -39,7 +43,7 @@ class UserStoreRequest extends FormRequest
             ],
             'role' => [
                 'required',
-                Rule::in(collect(config('roles'))->keys()),
+                Rule::in($allowedRoles),
             ],
         ];
     }
