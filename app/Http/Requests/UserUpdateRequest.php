@@ -24,6 +24,8 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $user = $this->route('user');
+
         return [
             'name' => [
                 'min:1',
@@ -31,7 +33,7 @@ class UserUpdateRequest extends FormRequest
             'email' => [
                 'email',
                 Rule::unique('users', 'email')
-                    ->ignore($this->user()->id),
+                    ->ignore($user->id),
             ],
             'password' => [
                 'min:8',

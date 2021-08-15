@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class UserController extends Controller
 {
@@ -75,11 +77,22 @@ class UserController extends Controller
         /** @var User $auth */
         $auth = Auth::user();
 
-        $attributes = $auth->currentAccessToken()->can('update-users')
-            ? $request->all()
-            : $request->except('role');
+        $role = $request->input('role');
 
-        $user->update($attributes);
+        if ($role) {
+            if ($auth->currentAccessToken()->cant('update-users')) {
+                throw new AccessDeniedHttpException('This action is unauthorized.');
+            }
+            if ($role !== Role::SYSTEM_ADMIN) {
+                if (User::query()->where('role', Role::SYSTEM_ADMIN)->count() === 1) {
+                    throw new AccessDeniedHttpException('This action is unauthorized.');
+                }
+            }
+        }
+
+        $user->update($request->all());
+
+        $user->tokens()->delete();
 
         return new UserResource($user);
     }

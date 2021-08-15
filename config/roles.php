@@ -1,20 +1,32 @@
 <?php
 
+use App\Enums\Role;
+
 return [
 
-    'admin' => [
-        'view-users',
-        'create-users',
-        'update-users',
-        'delete-users',
-        'restore-users',
+    Role::SYSTEM_ADMIN => [
+
+        'name' => 'Admin',
+        'abilities' => [
+            'view-users',
+            'create-users',
+            'update-users',
+            'delete-users',
+            'restore-users',
+        ],
+
     ],
 
-    'user' => [
-        'view-users',
+    Role::SYSTEM_USER => [
+
+        'name' => 'User',
+        'abilities' => [
+            'view-users',
+        ],
+
     ],
 
-    'owner' => [
+    Role::PROJECT_OWNER => [
         'view-projects',
         'create-projects',
         'update-projects',
@@ -30,7 +42,7 @@ return [
         'delete-values',
     ],
 
-    'maintainer' => [
+    Role::PROJECT_MAINTAINER => [
         'view-projects',
         'create-projects',
         'update-projects',
@@ -42,7 +54,7 @@ return [
         'update-values',
     ],
 
-    'reviewer' => [
+    Role::PROJECT_REVIEWER => [
         'view-projects',
         'view-keys',
         'view-values',

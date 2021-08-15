@@ -28,7 +28,7 @@ class TokenController extends Controller
             throw new AuthenticationException();
         }
 
-        $abilities = config('roles')[$user->role];
+        $abilities = config('roles')[$user->role]['abilities'];
 
         $token = $user->createToken('', $abilities)->plainTextToken;
 

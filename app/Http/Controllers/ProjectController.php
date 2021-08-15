@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
@@ -52,7 +53,7 @@ class ProjectController extends Controller
         $project = Project::query()->create($request->all());
 
         $request->user()->projects()->attach($project, [
-            'role' => 'owner',
+            'role' => Role::PROJECT_OWNER,
         ]);
 
         $languages = $request->input('languages', []);
