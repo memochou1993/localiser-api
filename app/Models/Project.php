@@ -6,13 +6,17 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
+ * @property string $name
+ * @property Pivot pivot
+ * @property Carbon created_at
+ * @property Carbon updated_at
  * @property Collection $users
  * @property Collection $languages
  * @property Collection $keys
- * @property Pivot pivot
  */
 class Project extends Model
 {

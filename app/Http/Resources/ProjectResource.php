@@ -2,8 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Project;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Project
+ */
 class ProjectResource extends JsonResource
 {
     /**
@@ -19,8 +23,8 @@ class ProjectResource extends JsonResource
             'name' => $this->name,
             'users' => UserResource::collection($this->whenLoaded('users')),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
-            'role' => $this->when($this->pivot, function () {
-                return config('roles')[$this->pivot->role];
+            'role' => $this->when(!!$this->pivot, function () {
+                return config('roles')[$this->pivot->getAttribute('role')];
             }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

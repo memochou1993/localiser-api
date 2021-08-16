@@ -2,8 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Key;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Key
+ */
 class KeyResource extends JsonResource
 {
     /**

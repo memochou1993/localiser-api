@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
+ * @property string $name
  * @property int $project_id
+ * @property Carbon created_at
+ * @property Carbon updated_at
  * @property Project $project
  */
 class Key extends Model
