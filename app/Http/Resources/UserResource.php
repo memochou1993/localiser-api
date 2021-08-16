@@ -18,9 +18,9 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role,
+            'role' => config('roles')[$this->role],
             'project_role' => $this->when($this->pivot, function () {
-                return $this->pivot->role;
+                return config('roles')[$this->pivot->role];
             }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
