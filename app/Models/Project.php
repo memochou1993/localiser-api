@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * @property int $id
  * @property Collection $users
  * @property Collection $languages
  * @property Collection $keys
+ * @property Pivot pivot
  */
 class Project extends Model
 {

@@ -23,7 +23,7 @@ class ProjectResource extends JsonResource
                 return $this->pivot->role;
             }),
             'abilities' => $this->when($this->pivot, function () {
-                return config('roles')[$this->pivot->role];
+                return config('roles')[$this->pivot->role]['abilities'];
             }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Constants\Ability;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -18,7 +19,7 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->currentAccessToken()->can(Ability::PROJECT_VIEW);
     }
 
     /**
@@ -30,7 +31,8 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $user->projects->contains($project->id);
+        return $user->currentAccessToken()->can(Ability::PROJECT_VIEW)
+            && $user->projects->contains($project->id);
     }
 
     /**
@@ -41,7 +43,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->currentAccessToken()->can(Ability::PROJECT_CREATE);
     }
 
     /**
@@ -53,7 +55,17 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return $user->projects->contains($project->id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::PROJECT_UPDATE);
     }
 
     /**
@@ -65,7 +77,17 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $user->projects->contains($project->id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::PROJECT_DELETE);
     }
 
     /**

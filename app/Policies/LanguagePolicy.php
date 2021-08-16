@@ -2,9 +2,12 @@
 
 namespace App\Policies;
 
+use App\Constants\Ability;
 use App\Models\Language;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Gate;
 
 class LanguagePolicy
 {
@@ -18,7 +21,7 @@ class LanguagePolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return Gate::authorize('view', request()->route('project'))->allowed();
     }
 
     /**
@@ -30,7 +33,7 @@ class LanguagePolicy
      */
     public function view(User $user, Language $language)
     {
-        return $user->projects->contains($language->project_id);
+        return Gate::authorize('view', $language->project)->allowed();
     }
 
     /**
@@ -41,7 +44,17 @@ class LanguagePolicy
      */
     public function create(User $user)
     {
-        return true;
+        /** @var Project $userProject */
+        $userProject = $user->projects->find(request()->route('project'));
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::LANGUAGE_CREATE);
     }
 
     /**
@@ -53,7 +66,17 @@ class LanguagePolicy
      */
     public function update(User $user, Language $language)
     {
-        return $user->projects->contains($language->project_id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($language->project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::LANGUAGE_UPDATE);
     }
 
     /**
@@ -65,7 +88,17 @@ class LanguagePolicy
      */
     public function delete(User $user, Language $language)
     {
-        return $user->projects->contains($language->project_id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($language->project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::LANGUAGE_DELETE);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Role;
+use App\Constants\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'root',
             'email' => 'root@email.com',
             'password' => 'root',
-            'role' => Role::SYSTEM_ADMIN,
+            'role' => Role::ADMIN,
         ]);
     }
 }

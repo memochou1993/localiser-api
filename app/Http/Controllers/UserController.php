@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Role;
+use App\Constants\Role;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
@@ -83,7 +83,7 @@ class UserController extends Controller
             if ($auth->currentAccessToken()->cant('update-users')) {
                 throw new AccessDeniedHttpException('This action is unauthorized.');
             }
-            $admins = User::query()->where('role', Role::SYSTEM_ADMIN)->get();
+            $admins = User::query()->where('role', Role::ADMIN)->get();
             if ($admins->contains($user) && $admins->count() === 1) {
                 throw new AccessDeniedHttpException('This action is unauthorized.');
             }

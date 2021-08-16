@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Constants\Ability;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -17,7 +18,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->currentAccessToken()->can('view-users');
+        return $user->currentAccessToken()->can(Ability::USER_VIEW);
     }
 
     /**
@@ -29,8 +30,8 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->currentAccessToken()->can('view-users')
-            || $user->id === $model->id;
+        return $user->currentAccessToken()->can(Ability::USER_VIEW)
+            || $user->is($model);
     }
 
     /**
@@ -41,7 +42,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->currentAccessToken()->can('create-users');
+        return $user->currentAccessToken()->can(Ability::USER_CREATE);
     }
 
     /**
@@ -53,8 +54,8 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->currentAccessToken()->can('update-users')
-            || $user->id === $model->id;
+        return $user->currentAccessToken()->can(Ability::USER_UPDATE)
+            || $user->is($model);
     }
 
     /**
@@ -66,8 +67,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->currentAccessToken()->can('delete-users')
-            && $user->id !== $model->id;
+        return $user->currentAccessToken()->can(Ability::USER_DELETE)
+            && $user->isNot($model);
     }
 
     /**
@@ -79,7 +80,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        return $user->currentAccessToken()->can('restore-users');
+        return $user->currentAccessToken()->can(Ability::USER_RESTORE);
     }
 
     /**

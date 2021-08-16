@@ -1,72 +1,82 @@
 <?php
 
-use App\Enums\Role;
+use App\Constants\Ability;
+use App\Constants\Role;
+use App\Constants\Scope;
 
 return [
 
-    Role::SYSTEM_ADMIN => [
+    Role::ADMIN => [
         'name' => 'Admin',
-        'scope' => 'system',
+        'scope' => Scope::SYSTEM,
         'abilities' => [
-            'view-users',
-            'create-users',
-            'update-users',
-            'delete-users',
-            'restore-users',
+            Ability::USER_VIEW,
+            Ability::USER_CREATE,
+            Ability::USER_UPDATE,
+            Ability::USER_DELETE,
+            Ability::USER_RESTORE,
+            Ability::PROJECT_VIEW,
+            Ability::PROJECT_CREATE,
         ],
     ],
 
-    Role::SYSTEM_USER => [
-        'name' => 'User',
-        'scope' => 'system',
+    Role::DEVELOPER => [
+        'name' => 'Developer',
+        'scope' => Scope::SYSTEM,
         'abilities' => [
-            'view-users',
+            Ability::USER_VIEW,
+            Ability::PROJECT_VIEW,
+            Ability::PROJECT_CREATE,
+        ],
+    ],
+
+    Role::GUEST => [
+        'name' => 'Guest',
+        'scope' => Scope::SYSTEM,
+        'abilities' => [
+            Ability::PROJECT_VIEW,
         ],
     ],
 
     Role::PROJECT_OWNER => [
         'name' => 'Owner',
-        'scope' => 'project',
+        'scope' => Scope::PROJECT,
         'abilities' => [
-            'view-projects',
-            'create-projects',
-            'update-projects',
-            'delete-projects',
-            'restore-projects',
-            'view-keys',
-            'create-keys',
-            'update-keys',
-            'delete-keys',
-            'view-values',
-            'create-values',
-            'update-values',
-            'delete-values',
+            Ability::PROJECT_UPDATE,
+            Ability::PROJECT_DELETE,
+            Ability::PROJECT_RESTORE,
+            Ability::LANGUAGE_CREATE,
+            Ability::LANGUAGE_UPDATE,
+            Ability::LANGUAGE_DELETE,
+            Ability::KEY_CREATE,
+            Ability::KEY_UPDATE,
+            Ability::KEY_DELETE,
+            Ability::VALUE_CREATE,
+            Ability::VALUE_UPDATE,
+            Ability::VALUE_DELETE,
         ],
     ],
 
     Role::PROJECT_MAINTAINER => [
         'name' => 'Maintainer',
-        'scope' => 'project',
+        'scope' => Scope::PROJECT,
         'abilities' => [
-            'view-projects',
-            'create-projects',
-            'update-projects',
-            'view-keys',
-            'create-keys',
-            'update-keys',
-            'view-values',
-            'create-values',
-            'update-values',
+            Ability::PROJECT_UPDATE,
+            Ability::LANGUAGE_UPDATE,
+            Ability::KEY_CREATE,
+            Ability::KEY_UPDATE,
+            Ability::KEY_DELETE,
+            Ability::VALUE_CREATE,
+            Ability::VALUE_UPDATE,
+            Ability::VALUE_DELETE,
         ],
     ],
 
-    Role::PROJECT_REVIEWER => [
-        'name' => 'Maintainer',
-        'scope' => 'project',
+    Role::PROJECT_GUEST => [
+        'name' => 'Guest',
+        'scope' => Scope::PROJECT,
         'abilities' => [
-            'view-projects',
-            'view-keys',
-            'view-values',
+            //
         ],
     ],
 

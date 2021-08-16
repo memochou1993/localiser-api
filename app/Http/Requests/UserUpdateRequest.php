@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\Scope;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +28,7 @@ class UserUpdateRequest extends FormRequest
         $user = $this->route('user');
 
         $allowedRoles = collect(config('roles'))
-            ->where('scope', 'system')
+            ->where('scope', Scope::SYSTEM)
             ->keys();
 
         return [

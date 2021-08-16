@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class LanguageIndexRequest extends FormRequest
 {
@@ -14,7 +13,7 @@ class LanguageIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('view', $this->route('project'))->allowed();
+        return true;
     }
 
     /**

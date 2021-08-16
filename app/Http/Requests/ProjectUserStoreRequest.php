@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\Scope;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,7 @@ class ProjectUserStoreRequest extends FormRequest
     public function rules()
     {
         $allowedRoles = collect(config('roles'))
-            ->where('scope', 'project')
+            ->where('scope', Scope::PROJECT)
             ->keys();
 
         return [
