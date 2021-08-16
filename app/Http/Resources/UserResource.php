@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'role' => config('roles')[$this->role],
-            'project_role' => $this->when(!!$this->pivot, function () {
+            'project_role' => $this->whenPivotLoaded('project_user', function () {
                 return config('roles')[$this->pivot->getAttribute('role')];
             }),
             'created_at' => $this->created_at,

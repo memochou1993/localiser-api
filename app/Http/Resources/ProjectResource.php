@@ -23,7 +23,7 @@ class ProjectResource extends JsonResource
             'name' => $this->name,
             'users' => UserResource::collection($this->whenLoaded('users')),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
-            'role' => $this->when(!!$this->pivot, function () {
+            'role' => $this->whenPivotLoaded('project_user', function () {
                 return config('roles')[$this->pivot->getAttribute('role')];
             }),
             'created_at' => $this->created_at,
