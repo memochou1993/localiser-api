@@ -2,9 +2,12 @@
 
 namespace App\Policies;
 
+use App\Constants\Ability;
 use App\Models\Key;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Gate;
 
 class KeyPolicy
 {
@@ -18,7 +21,7 @@ class KeyPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return Gate::authorize('view', request()->route('project'))->allowed();
     }
 
     /**
@@ -30,7 +33,7 @@ class KeyPolicy
      */
     public function view(User $user, Key $key)
     {
-        return $user->projects->contains($key->project_id);
+        return Gate::authorize('view', $key->project)->allowed();
     }
 
     /**
@@ -41,7 +44,17 @@ class KeyPolicy
      */
     public function create(User $user)
     {
-        return true;
+        /** @var Project $userProject */
+        $userProject = $user->projects->find(request()->route('project'));
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::KEY_CREATE);
     }
 
     /**
@@ -53,7 +66,17 @@ class KeyPolicy
      */
     public function update(User $user, Key $key)
     {
-        return $user->projects->contains($key->project_id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($key->project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::KEY_UPDATE);
     }
 
     /**
@@ -65,7 +88,17 @@ class KeyPolicy
      */
     public function delete(User $user, Key $key)
     {
-        return $user->projects->contains($key->project_id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($key->project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::KEY_DELETE);
     }
 
     /**
