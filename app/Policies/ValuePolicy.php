@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Constants\Ability;
 use App\Models\User;
 use App\Models\Value;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Gate;
 
 class ValuePolicy
 {
@@ -18,7 +20,7 @@ class ValuePolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return Gate::authorize('view', request()->route('key')->project)->allowed();
     }
 
     /**
@@ -30,7 +32,7 @@ class ValuePolicy
      */
     public function view(User $user, Value $value)
     {
-        return $user->projects->contains($value->key->project_id);
+        return Gate::authorize('view', $value->key->project)->allowed();
     }
 
     /**
@@ -41,7 +43,17 @@ class ValuePolicy
      */
     public function create(User $user)
     {
-        return true;
+        /** @var Project $userProject */
+        $userProject = $user->projects->find(request()->route('key')->project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::VALUE_CREATE);
     }
 
     /**
@@ -53,7 +65,17 @@ class ValuePolicy
      */
     public function update(User $user, Value $value)
     {
-        return $user->projects->contains($value->key->project_id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($value->key->project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::VALUE_UPDATE);
     }
 
     /**
@@ -65,7 +87,17 @@ class ValuePolicy
      */
     public function delete(User $user, Value $value)
     {
-        return $user->projects->contains($value->key->project_id);
+        /** @var Project $userProject */
+        $userProject = $user->projects->find($value->key->project);
+
+        if (!$userProject) {
+            return false;
+        }
+
+        $role = $userProject->pivot->getAttribute('role');
+        $abilities = config('roles')[$role]['abilities'];
+
+        return collect($abilities)->contains(Ability::VALUE_DELETE);
     }
 
     /**
