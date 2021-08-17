@@ -8,6 +8,7 @@ return [
 
     Role::ADMIN => [
         'name' => 'Admin',
+        'code' => Role::ADMIN,
         'scope' => Scope::SYSTEM,
         'abilities' => [
             Ability::USER_VIEW,
@@ -22,6 +23,7 @@ return [
 
     Role::DEVELOPER => [
         'name' => 'Developer',
+        'code' => Role::DEVELOPER,
         'scope' => Scope::SYSTEM,
         'abilities' => [
             Ability::USER_VIEW,
@@ -32,14 +34,17 @@ return [
 
     Role::GUEST => [
         'name' => 'Guest',
+        'code' => Role::GUEST,
         'scope' => Scope::SYSTEM,
         'abilities' => [
+            Ability::USER_VIEW,
             Ability::PROJECT_VIEW,
         ],
     ],
 
     Role::PROJECT_OWNER => [
         'name' => 'Owner',
+        'code' => Role::PROJECT_OWNER,
         'scope' => Scope::PROJECT,
         'abilities' => [
             Ability::PROJECT_UPDATE,
@@ -59,6 +64,7 @@ return [
 
     Role::PROJECT_MAINTAINER => [
         'name' => 'Maintainer',
+        'code' => Role::PROJECT_MAINTAINER,
         'scope' => Scope::PROJECT,
         'abilities' => [
             Ability::PROJECT_UPDATE,
@@ -74,6 +80,7 @@ return [
 
     Role::PROJECT_GUEST => [
         'name' => 'Guest',
+        'code' => Role::PROJECT_GUEST,
         'scope' => Scope::PROJECT,
         'abilities' => [
             //

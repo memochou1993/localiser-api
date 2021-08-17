@@ -14,7 +14,7 @@ class ValueIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('view', $this->route('key'))->allowed();
+        return true;
     }
 
     /**

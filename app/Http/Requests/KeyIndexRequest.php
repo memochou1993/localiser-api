@@ -14,7 +14,7 @@ class KeyIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::authorize('view', $this->route('project'))->allowed();
+        return true;
     }
 
     /**
