@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Role;
 use App\Http\Requests\ProjectUserDestroyRequest;
 use App\Http\Requests\ProjectUserStoreRequest;
 use App\Models\Project;
@@ -46,6 +47,12 @@ class ProjectUserController extends Controller
     public function destroy(ProjectUserDestroyRequest $request, Project $project, User $user): JsonResponse
     {
         if ($project->users->count() === 1) {
+            abort(Response::HTTP_BAD_REQUEST);
+        }
+
+        $admins = $project->users()->wherePivot('role', Role::PROJECT_OWNER)->get();
+
+        if ($admins->count() === 1 && $admins->contains($user)) {
             abort(Response::HTTP_BAD_REQUEST);
         }
 

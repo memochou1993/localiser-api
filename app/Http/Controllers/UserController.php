@@ -83,10 +83,13 @@ class UserController extends Controller
             if ($auth->currentAccessToken()->cant('update-users')) {
                 throw new AccessDeniedHttpException('This action is unauthorized.');
             }
+
             $admins = User::query()->where('role', Role::ADMIN)->get();
-            if ($admins->contains($user) && $admins->count() === 1) {
+
+            if ($admins->count() === 1 && $admins->contains($user)) {
                 throw new AccessDeniedHttpException('This action is unauthorized.');
             }
+
             if ($user->role !== $role) {
                 $user->tokens()->delete();
             }
