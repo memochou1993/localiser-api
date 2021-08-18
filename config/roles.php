@@ -32,16 +32,6 @@ return [
         ],
     ],
 
-    Role::GUEST => [
-        'name' => 'Guest',
-        'code' => Role::GUEST,
-        'scope' => Scope::SYSTEM,
-        'abilities' => [
-            Ability::USER_VIEW,
-            Ability::PROJECT_VIEW,
-        ],
-    ],
-
     Role::PROJECT_OWNER => [
         'name' => 'Owner',
         'code' => Role::PROJECT_OWNER,

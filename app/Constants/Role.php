@@ -8,5 +8,4 @@ class Role {
     const PROJECT_OWNER = 60;
     const PROJECT_MAINTAINER = 50;
     const PROJECT_GUEST = 40;
-    const GUEST = 10;
 }
