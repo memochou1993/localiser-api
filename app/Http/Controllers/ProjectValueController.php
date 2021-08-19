@@ -14,29 +14,35 @@ class ProjectValueController extends Controller
      *
      * @param ProjectValueIndexRequest $request
      * @param Project $project
+     * @return mixed
      */
-    public function index(ProjectValueIndexRequest $request, Project $project)
+    public function __invoke(ProjectValueIndexRequest $request, Project $project)
     {
+        $language_code = $request->input('language_code');
+
+        $cacheKeyForLanguage = sprintf("projects_%s:languages_%s", $project->id, $language_code);
+
         /** @var Language $language */
-        $language = Language::query()
-            ->where('code', $request->input('language_code'))
-            ->firstOrFail();
+        $language =  Cache::sear($cacheKeyForLanguage, function () use ($project, $language_code) {
+            return $project
+                ->languages()
+                ->where('code', $language_code)
+                ->firstOrFail();
+        });
 
-        $values = $project
-            ->values()
-            ->with('key')
-            ->where('language_id', $language->id)
-            ->get()
-            ->mapWithKeys(function ($value) {
-                return [
-                    $value['key']['name'] => $value['text'],
-                ];
-            });
+        $cacheKeyForValues = sprintf("projects_%s:languages_%s:values", $project->id, $language->id);
 
-        $cacheKey = sprintf("projects_%s:languages_%s:values", $project->id, $language->id);
-
-        return Cache::sear($cacheKey, function () use ($values) {
-            return $values;
+        return Cache::sear($cacheKeyForValues, function () use ($project, $language) {
+            return $project
+                ->values()
+                ->with('key')
+                ->where('language_id', $language->id)
+                ->get()
+                ->mapWithKeys(function ($value) {
+                    return [
+                        $value['key']['name'] => $value['text'],
+                    ];
+                });
         });
     }
 }
