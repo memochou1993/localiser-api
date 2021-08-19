@@ -3,6 +3,7 @@
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectValueController;
 use App\Http\Controllers\ProjectUserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
@@ -24,4 +25,5 @@ Route::middleware([
     Route::apiResource('projects.keys', KeyController::class)->shallow();
     Route::apiResource('keys.values', ValueController::class)->shallow();
     Route::apiResource('projects.users', ProjectUserController::class)->only('store', 'destroy');
+    Route::apiResource('projects.values', ProjectValueController::class)->only('index');
 });

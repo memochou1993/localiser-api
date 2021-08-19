@@ -45,4 +45,9 @@ class Project extends Model
     {
         return $this->hasMany(Key::class);
     }
+
+    public function values()
+    {
+        return $this->hasMany(Value::class);
+    }
 }

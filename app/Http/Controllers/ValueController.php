@@ -48,7 +48,7 @@ class ValueController extends Controller
 
         $key->touch();
 
-        $value = $key->values()->create($request->all());
+        $value = $key->values()->save($key->project->values()->make($request->all()));
 
         return new ValueResource($value);
     }
