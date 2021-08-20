@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectValueIndexRequest;
 use App\Models\Language;
 use App\Models\Project;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 
 class ProjectValueController extends Controller
@@ -14,9 +15,9 @@ class ProjectValueController extends Controller
      *
      * @param ProjectValueIndexRequest $request
      * @param Project $project
-     * @return mixed
+     * @return JsonResponse
      */
-    public function __invoke(ProjectValueIndexRequest $request, Project $project)
+    public function __invoke(ProjectValueIndexRequest $request, Project $project): JsonResponse
     {
         $language_code = $request->input('language_code');
 
@@ -32,7 +33,7 @@ class ProjectValueController extends Controller
 
         $cacheKeyForValues = sprintf("projects_%s:languages_%s:values", $project->id, $language->id);
 
-        return Cache::sear($cacheKeyForValues, function () use ($project, $language) {
+        $values = Cache::sear($cacheKeyForValues, function () use ($project, $language) {
             return $project
                 ->values()
                 ->with('key')
@@ -44,5 +45,7 @@ class ProjectValueController extends Controller
                     ];
                 });
         });
+
+        return response()->json($values);
     }
 }
