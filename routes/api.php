@@ -3,8 +3,8 @@
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectLanguageCacheController;
-use App\Http\Controllers\ProjectValueCacheController;
+use App\Http\Controllers\ProjectCacheLanguageController;
+use App\Http\Controllers\ProjectCacheValueController;
 use App\Http\Controllers\ProjectUserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('tokens', [TokenController::class, 'store']);
-Route::get('projects/{project}/languages/cache', [ProjectLanguageCacheController::class, 'index']);
-Route::get('projects/{project}/values/cache', [ProjectValueCacheController::class, 'index']);
+Route::get('projects/{project}/cache/languages', [ProjectCacheLanguageController::class, 'index']);
+Route::get('projects/{project}/cache/values', [ProjectCacheValueController::class, 'index']);
 
 Route::middleware([
     'auth:sanctum',
@@ -30,6 +30,6 @@ Route::middleware([
     Route::apiResource('keys.values', ValueController::class)->shallow();
     Route::apiResource('projects.users', ProjectUserController::class)->only('store', 'destroy');
 
-    Route::delete('projects/{project}/languages/cache', [ProjectLanguageCacheController::class, 'destroy']);
-    Route::delete('projects/{project}/values/cache', [ProjectValueCacheController::class, 'destroy']);
+    Route::delete('projects/{project}/cache/languages', [ProjectCacheLanguageController::class, 'destroy']);
+    Route::delete('projects/{project}/cache/values', [ProjectCacheValueController::class, 'destroy']);
 });

@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProjectLanguageCacheController extends Controller
+class ProjectCacheLanguageController extends Controller
 {
     /**
      * Display a listing of the resource.

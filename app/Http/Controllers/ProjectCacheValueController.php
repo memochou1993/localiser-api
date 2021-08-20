@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProjectValueCacheController extends Controller
+class ProjectCacheValueController extends Controller
 {
     /**
      * Display a listing of the resource.
