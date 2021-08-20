@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $name
+ * @property string $description
  * @property int $project_id
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -25,6 +26,7 @@ class Key extends Model
      */
     protected $fillable = [
         'name',
+        'description',
     ];
 
     public function project()

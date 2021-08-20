@@ -21,6 +21,7 @@ class ProjectResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'description' => $this->description,
             'users' => UserResource::collection($this->whenLoaded('users')),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             'role' => $this->whenPivotLoaded('project_user', function () {
