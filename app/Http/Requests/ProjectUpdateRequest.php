@@ -27,6 +27,9 @@ class ProjectUpdateRequest extends FormRequest
             'name' => [
                 'min:1',
             ],
+            'settings' => [
+                'array',
+            ],
         ];
     }
 }

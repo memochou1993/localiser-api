@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $name
  * @property string $description
+ * @property object $settings
  * @property Pivot pivot
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -31,6 +32,16 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
+        'settings',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'settings' => 'object',
     ];
 
     public function users()
