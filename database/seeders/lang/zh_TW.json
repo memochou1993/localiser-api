@@ -1,7 +1,7 @@
 {
-    "__InputEmail": "電子郵件",
-    "__InputPassword": "密碼",
-    "__ErrorEmailRequired": "此欄位為必填",
-    "__ErrorPasswordRequired": "此欄位為必填",
-    "__ButtonLogIn": "登入"
+    "InputEmail": "電子郵件",
+    "InputPassword": "密碼",
+    "ErrorEmailRequired": "此欄位為必填",
+    "ErrorPasswordRequired": "此欄位為必填",
+    "ButtonLogIn": "登入"
 }

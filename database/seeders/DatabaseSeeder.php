@@ -30,6 +30,10 @@ class DatabaseSeeder extends Seeder
         /** @var Project $project */
         $project = Project::query()->create([
             'name' => 'Localiser',
+            'settings' => [
+               'keyPrefix' => '__',
+               'keySuffix' => '',
+            ],
         ]);
 
         $admin->projects()->attach($project, [

@@ -53,9 +53,14 @@ class ProjectCacheValueController extends Controller
                     ->with('key')
                     ->where('language_id', $language->id)
                     ->get()
-                    ->mapWithKeys(function ($value) {
+                    ->mapWithKeys(function ($value) use ($project) {
+                        $key = vsprintf("%s%s", [
+                            $project->settings->keyPrefix ?? '',
+                            $value['key']['name'],
+                            $project->settings->keySuffix ?? '',
+                        ]);
                         return [
-                            $value['key']['name'] => $value['text'],
+                            $key => $value['text'],
                         ];
                     });
             }
