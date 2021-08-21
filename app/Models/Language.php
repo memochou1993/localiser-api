@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $name
- * @property string $code
+ * @property string $locale
  * @property int $project_id
  * @property Project $project
  * @property Carbon created_at
@@ -26,7 +26,7 @@ class Language extends Model
      */
     protected $fillable = [
         'name',
-        'code',
+        'locale',
     ];
 
     public function project()

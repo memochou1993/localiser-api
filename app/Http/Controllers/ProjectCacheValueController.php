@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProjectValueCacheDestroyRequest;
-use App\Http\Requests\ProjectValueIndexRequest;
 use App\Models\Language;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,38 +14,52 @@ class ProjectCacheValueController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param ProjectValueIndexRequest $request
-     * @param Project $project
+     * @param Request $request
+     * @param string $id
      * @return JsonResponse
      */
-    public function index(ProjectValueIndexRequest $request, Project $project): JsonResponse
+    public function index(Request $request, string $id): JsonResponse
     {
-        $language_code = $request->input('language_code');
+        $request->validate([
+            'locale' => 'required',
+        ]);
 
-        $cacheKeyForLanguage = sprintf("projects_%s:languages_%s", $project->id, $language_code);
+        $locale = $request->input('locale');
+
+        /** @var Project $project */
+        $project = Cache::sear(
+            sprintf("project_%s", $id),
+            function () use ($id) {
+                return Project::query()->findOrFail($id);
+            }
+        );
 
         /** @var Language $language */
-        $language =  Cache::sear($cacheKeyForLanguage, function () use ($project, $language_code) {
-            return $project
-                ->languages()
-                ->where('code', $language_code)
-                ->firstOrFail();
-        });
+        $language =  Cache::sear(
+            sprintf("language_%s", $locale),
+            function () use ($project, $locale) {
+                return $project
+                    ->languages()
+                    ->where('locale', $locale)
+                    ->firstOrFail();
+            }
+        );
 
-        $cacheKeyForValues = sprintf("projects_%s:languages_%s:values", $project->id, $language->id);
-
-        $values = Cache::sear($cacheKeyForValues, function () use ($project, $language) {
-            return $project
-                ->values()
-                ->with('key')
-                ->where('language_id', $language->id)
-                ->get()
-                ->mapWithKeys(function ($value) {
-                    return [
-                        $value['key']['name'] => $value['text'],
-                    ];
-                });
-        });
+        $values = Cache::sear(
+            sprintf("language_%s_values", $locale),
+            function () use ($project, $language) {
+                return $project
+                    ->values()
+                    ->with('key')
+                    ->where('language_id', $language->id)
+                    ->get()
+                    ->mapWithKeys(function ($value) {
+                        return [
+                            $value['key']['name'] => $value['text'],
+                        ];
+                    });
+            }
+        );
 
         return response()->json($values);
     }
@@ -54,26 +67,17 @@ class ProjectCacheValueController extends Controller
     /**
      * Remove the specified resource from cache.
      *
-     * @param ProjectValueCacheDestroyRequest $request
      * @param Project $project
      * @return JsonResponse
      */
-    public function destroy(ProjectValueCacheDestroyRequest $request, Project $project): JsonResponse
+    public function destroy(Project $project): JsonResponse
     {
-        $language_code = $request->input('language_code');
+        Cache::forget(sprintf("project_%s", $project->id));
 
-        /** @var Language $language */
-        $language = Language::query()
-            ->where('code', $language_code)
-            ->firstOrFail();
-
-        $cacheKeyForLanguage = sprintf("projects_%s:languages_%s", $project->id, $language_code);
-
-        Cache::forget($cacheKeyForLanguage);
-
-        $cacheKeyForValues = sprintf("projects_%s:languages_%s:values", $project->id, $language->id);
-
-        Cache::forget($cacheKeyForValues);
+        $project->languages->each(function ($language) use ($project) {
+            Cache::forget(sprintf("language_%s", $language->locale));
+            Cache::forget(sprintf("language_%s_values", $language->locale));
+        });
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }

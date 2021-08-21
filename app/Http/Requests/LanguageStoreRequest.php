@@ -33,9 +33,9 @@ class LanguageStoreRequest extends FormRequest
                 Rule::unique('languages', 'name')
                     ->where('project_id', $project->id),
             ],
-            'code' => [
+            'locale' => [
                 'required',
-                Rule::unique('languages', 'code')
+                Rule::unique('languages', 'locale')
                     ->where('project_id', $project->id),
             ],
         ];

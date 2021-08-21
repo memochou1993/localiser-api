@@ -33,9 +33,9 @@ class LanguageUpdateRequest extends FormRequest
                     ->where('project_id', $language->project->id)
                     ->ignore($language->id),
             ],
-            'code' => [
+            'locale' => [
                 'min:1',
-                Rule::unique('languages', 'code')
+                Rule::unique('languages', 'locale')
                     ->where('project_id', $language->project->id)
                     ->ignore($language->id),
             ],

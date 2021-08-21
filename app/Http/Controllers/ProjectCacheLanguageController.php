@@ -17,16 +17,17 @@ class ProjectCacheLanguageController extends Controller
      */
     public function index(Project $project): JsonResponse
     {
-        $cacheKey = sprintf("projects_%s:languages", $project->id);
-
-        $languages = Cache::sear($cacheKey, function () use ($project) {
-            return $project->languages->map(function ($language) {
-                return [
-                    'name' => $language->name,
-                    'code' => $language->code,
-                ];
-            });
-        });
+        $languages = Cache::sear(
+            sprintf("project_%s_languages", $project->id),
+            function () use ($project) {
+                return $project->languages->map(function ($language) {
+                    return [
+                        'name' => $language->name,
+                        'locale' => $language->locale,
+                    ];
+                });
+            }
+        );
 
         return response()->json($languages);
     }
@@ -39,9 +40,7 @@ class ProjectCacheLanguageController extends Controller
      */
     public function destroy(Project $project): JsonResponse
     {
-        $cacheKey = sprintf("projects_%s:languages", $project->id);
-
-        Cache::forget($cacheKey);
+        Cache::forget(sprintf("project_%s_languages", $project->id));
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
