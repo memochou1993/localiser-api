@@ -20,8 +20,11 @@ Route::get('projects/{project}/cache/values', [ProjectCacheValueController::clas
 Route::middleware([
     'auth:sanctum',
 ])->group(function () {
-    Route::get('users/me', function (Request $request) { return new UserResource($request->user()); });
+    Route::get('user', function (Request $request) { return new UserResource($request->user()); });
+
     Route::delete('tokens', [TokenController::class, 'destroy']);
+    Route::delete('projects/{project}/cache/languages', [ProjectCacheLanguageController::class, 'destroy']);
+    Route::delete('projects/{project}/cache/values', [ProjectCacheValueController::class, 'destroy']);
 
     Route::apiResource('users', UserController::class);
     Route::apiResource('projects', ProjectController::class);
@@ -29,7 +32,4 @@ Route::middleware([
     Route::apiResource('projects.keys', KeyController::class)->shallow();
     Route::apiResource('keys.values', ValueController::class)->shallow();
     Route::apiResource('projects.users', ProjectUserController::class)->only('store', 'destroy');
-
-    Route::delete('projects/{project}/cache/languages', [ProjectCacheLanguageController::class, 'destroy']);
-    Route::delete('projects/{project}/cache/values', [ProjectCacheValueController::class, 'destroy']);
 });
