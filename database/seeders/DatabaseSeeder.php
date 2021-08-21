@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
                 collect($items)
                     ->each(function ($item, $index) use ($project, $language) {
                         /** @var Key $key */
-                        $key = $project->keys()->create([
+                        $key = $project->keys()->firstOrCreate([
                             'name' => $index,
                         ]);
                         $key->values()->create([
