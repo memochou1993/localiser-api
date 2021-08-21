@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -58,7 +59,9 @@ class DatabaseSeeder extends Seeder
                     ->each(function ($item, $index) use ($project, $language) {
                         /** @var Key $key */
                         $key = $project->keys()->firstOrCreate([
-                            'name' => $index,
+                            'name' => Str::of($index)
+                                ->replaceFirst($project->settings->keyPrefix, '')
+                                ->replaceLast($project->settings->keySuffix, ''),
                         ]);
                         $key->values()->create([
                             'text' => $item,

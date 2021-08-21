@@ -1,7 +1,7 @@
 {
-    "InputEmail": "Email",
-    "InputPassword": "Password",
-    "ErrorEmailRequired": "The email is required.",
-    "ErrorPasswordRequired": "The password is required.",
-    "ButtonLogIn": "Log in"
+    "__InputEmail": "Email",
+    "__InputPassword": "Password",
+    "__ErrorEmailRequired": "The email is required.",
+    "__ErrorPasswordRequired": "The password is required.",
+    "__ButtonLogIn": "Log in"
 }
