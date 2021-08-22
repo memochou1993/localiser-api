@@ -62,7 +62,8 @@ class ProjectCacheValueController extends Controller
                         return [
                             $key => $value['text'],
                         ];
-                    });
+                    })
+                    ->sortKeys();
             }
         );
 
