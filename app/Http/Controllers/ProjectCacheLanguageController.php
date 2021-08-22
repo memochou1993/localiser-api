@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Language;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
@@ -12,15 +13,18 @@ class ProjectCacheLanguageController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Project $project
+     * @param string $project_id
      * @return JsonResponse
      */
-    public function index(Project $project): JsonResponse
+    public function index(string $project_id): JsonResponse
     {
-        $languages = Cache::sear(
-            sprintf("project_%s_languages", $project->id),
-            function () use ($project) {
-                return $project->languages->map(function ($language) {
+        $cacheKey = sprintf("project_%s_languages", $project_id);
+
+        $languages = Cache::sear($cacheKey, function () use ($project_id) {
+                $languages = Language::query()
+                    ->where('project_id', $project_id)
+                    ->get();
+                return $languages->map(function ($language) {
                     return [
                         'name' => $language->name,
                         'locale' => $language->locale,
@@ -40,7 +44,9 @@ class ProjectCacheLanguageController extends Controller
      */
     public function destroy(Project $project): JsonResponse
     {
-        Cache::forget(sprintf("project_%s_languages", $project->id));
+        $cacheKey = sprintf("project_%s_languages", $project->id);
+
+        Cache::forget($cacheKey);
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
