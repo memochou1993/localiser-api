@@ -21,9 +21,9 @@ return [
         ],
     ],
 
-    Role::DEVELOPER => [
-        'name' => 'Developer',
-        'code' => Role::DEVELOPER,
+    Role::USER => [
+        'name' => 'User',
+        'code' => Role::USER,
         'scope' => Scope::SYSTEM,
         'abilities' => [
             Ability::USER_VIEW,
@@ -65,6 +65,19 @@ return [
             Ability::VALUE_CREATE,
             Ability::VALUE_UPDATE,
             Ability::VALUE_DELETE,
+        ],
+    ],
+
+    Role::PROJECT_REPORTER => [
+        'name' => 'Reporter',
+        'code' => Role::PROJECT_REPORTER,
+        'scope' => Scope::PROJECT,
+        'abilities' => [
+            Ability::KEY_CREATE,
+            Ability::KEY_UPDATE,
+            Ability::KEY_DELETE,
+            Ability::VALUE_CREATE,
+            Ability::VALUE_UPDATE,
         ],
     ],
 
