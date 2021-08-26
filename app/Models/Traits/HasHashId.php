@@ -2,6 +2,8 @@
 
 namespace App\Models\Traits;
 
+use Illuminate\Support\Facades\App;
+
 trait HasHashId
 {
     public function getHashIdAttribute()
@@ -18,7 +20,7 @@ trait HasHashId
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        if (is_numeric($value)) {
+        if (App::environment('local') && is_numeric($value)) {
             return parent::resolveRouteBinding($value);
         }
         return parent::resolveRouteBinding(hash_id($this->getTable())->decodeHex($value));
