@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Constants\Scope;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
@@ -44,5 +46,26 @@ class ProjectUserStoreRequest extends FormRequest
                 Rule::in($allowedRoles),
             ],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $users = collect($this->input('users'))
+            ->map(function ($user) {
+                return [
+                    'id' => hash_id((new User())->getTable())->decodeHex(Arr::get($user, 'id')),
+                    'role' => Arr::get($user, 'role'),
+                ];
+            })
+            ->toArray();
+
+        $this->merge([
+            'users' => $users,
+        ]);
     }
 }

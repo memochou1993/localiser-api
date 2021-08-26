@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Language;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -33,5 +34,19 @@ class ValueStoreRequest extends FormRequest
                 Rule::notIn($key->values->pluck('language_id')),
             ],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $language_id = hash_id((new Language())->getTable())->decodeHex($this->input('language_id'));
+
+        $this->merge([
+            'language_id' => $language_id,
+        ]);
     }
 }
