@@ -16,11 +16,13 @@ class ProjectCacheValueController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @param string $project_id
+     * @param string $id
      * @return JsonResponse
      */
-    public function index(Request $request, string $project_id): JsonResponse
+    public function index(Request $request, string $id): JsonResponse
     {
+        $project_id = hash_id((new Project())->getTable())->decodeHex($id);
+
         $request->validate([
             'locale' => 'required',
         ]);

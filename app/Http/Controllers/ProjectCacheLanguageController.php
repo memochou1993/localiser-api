@@ -13,11 +13,13 @@ class ProjectCacheLanguageController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param string $project_id
+     * @param string $id
      * @return JsonResponse
      */
-    public function index(string $project_id): JsonResponse
+    public function index(string $id): JsonResponse
     {
+        $project_id = hash_id((new Project())->getTable())->decodeHex($id);
+
         $cacheKey = sprintf("project_%s_languages", $project_id);
 
         $languages = Cache::sear($cacheKey, function () use ($project_id) {
