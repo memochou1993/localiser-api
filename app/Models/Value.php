@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
+ * @property int $hash_id
  * @property string $text
  * @property Key $key
  * @property Carbon created_at
@@ -16,6 +18,7 @@ use Illuminate\Support\Carbon;
 class Value extends Model
 {
     use HasFactory;
+    use HasHashId;
 
     /**
      * The attributes that are mass assignable.

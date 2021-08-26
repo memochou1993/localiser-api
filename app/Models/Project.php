@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasHashId;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
+ * @property string $hash_id
  * @property string $name
  * @property string $description
  * @property object $settings
@@ -23,6 +25,7 @@ use Illuminate\Support\Carbon;
 class Project extends Model
 {
     use HasFactory;
+    use HasHashId;
 
     /**
      * The attributes that are mass assignable.

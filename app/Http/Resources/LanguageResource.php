@@ -19,7 +19,7 @@ class LanguageResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => $this->hash_id,
             'name' => $this->name,
             'locale' => $this->locale,
             'created_at' => $this->created_at,

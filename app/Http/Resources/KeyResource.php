@@ -19,7 +19,7 @@ class KeyResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => $this->hash_id,
             'name' => $this->name,
             'description' => $this->description,
             'values' => ValueResource::collection($this->whenLoaded('values')),

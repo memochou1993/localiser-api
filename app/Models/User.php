@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasHashId;
 use App\Models\Traits\HasTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property string $id
+ * @property string $hash_id
  * @property string $name
  * @property string $email
  * @property string $password
@@ -31,7 +33,9 @@ class User extends Authenticatable
     use HasFactory;
     use HasApiTokens, HasTokens {
         HasTokens::tokens insteadof HasApiTokens;
+        HasTokens::createToken insteadof HasApiTokens;
     }
+    use HasHashId;
     use Notifiable;
     use SoftDeletes;
 

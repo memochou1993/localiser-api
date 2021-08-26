@@ -19,7 +19,7 @@ class ValueResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => $this->hash_id,
             'text' => $this->text,
             'language' => new LanguageResource($this->whenLoaded('language')),
             'created_at' => $this->created_at,
