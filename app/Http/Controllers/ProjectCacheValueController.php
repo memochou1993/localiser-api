@@ -21,7 +21,9 @@ class ProjectCacheValueController extends Controller
      */
     public function index(Request $request, string $id): JsonResponse
     {
-        $project_id = $id === Project::LOCALISER_ID ? $id : hash_id((new Project())->getTable())->decodeHex($id);
+        $project_id = $id === Project::LOCALISER_ID
+            ? $id
+            : hash_id((new Project())->getTable())->decodeHex($id);
 
         $request->validate([
             'locale' => 'required',
@@ -35,19 +37,22 @@ class ProjectCacheValueController extends Controller
                 /** @var Project $project */
                 $project = Project::query()
                     ->findOrFail($project_id);
+
                 /** @var Language $language */
                 $language = Language::query()
                     ->where('project_id', $project_id)
                     ->where('locale', $locale)
                     ->firstOrFail();
+
                 $values = Value::query()
                     ->with('key')
                     ->where('project_id', $project_id)
                     ->where('language_id', $language->id)
                     ->get();
+
                 return $values
                     ->mapWithKeys(function ($value) use ($project) {
-                        $key = vsprintf("%s%s", [
+                        $key = vsprintf("%s%s%s", [
                             $project->settings->keyPrefix ?? '',
                             $value['key']['name'],
                             $project->settings->keySuffix ?? '',
@@ -73,6 +78,7 @@ class ProjectCacheValueController extends Controller
     {
         $project->languages->each(function ($language) use ($project) {
             $cacheKey = sprintf("project_%s_locale_%s_values", $project->id, $language->locale);
+
             Cache::forget($cacheKey);
         });
 

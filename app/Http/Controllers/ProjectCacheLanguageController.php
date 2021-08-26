@@ -18,20 +18,27 @@ class ProjectCacheLanguageController extends Controller
      */
     public function index(string $id): JsonResponse
     {
-        $project_id = $id === Project::LOCALISER_ID ? $id : hash_id((new Project())->getTable())->decodeHex($id);
+        $project_id = $id === Project::LOCALISER_ID
+            ? $id
+            : hash_id((new Project())->getTable())->decodeHex($id);
 
         $cacheKey = sprintf("project_%s_languages", $project_id);
 
         $languages = Cache::sear($cacheKey, function () use ($project_id) {
+                Project::query()
+                    ->findOrFail($project_id);
+
                 $languages = Language::query()
                     ->where('project_id', $project_id)
                     ->get();
-                return $languages->map(function ($language) {
-                    return [
-                        'name' => $language->name,
-                        'locale' => $language->locale,
-                    ];
-                });
+
+                return $languages
+                    ->map(function ($language) {
+                        return [
+                            'name' => $language->name,
+                            'locale' => $language->locale,
+                        ];
+                    });
             }
         );
 
