@@ -27,6 +27,8 @@ class Project extends Model
     use HasFactory;
     use HasHashId;
 
+    const LOCALISER_ID = '1';
+
     /**
      * The attributes that are mass assignable.
      *

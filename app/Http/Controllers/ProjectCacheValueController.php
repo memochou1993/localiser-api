@@ -21,7 +21,7 @@ class ProjectCacheValueController extends Controller
      */
     public function index(Request $request, string $id): JsonResponse
     {
-        $project_id = hash_id((new Project())->getTable())->decodeHex($id);
+        $project_id = $id === Project::LOCALISER_ID ? $id : hash_id((new Project())->getTable())->decodeHex($id);
 
         $request->validate([
             'locale' => 'required',

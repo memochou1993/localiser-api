@@ -18,7 +18,7 @@ class ProjectCacheLanguageController extends Controller
      */
     public function index(string $id): JsonResponse
     {
-        $project_id = hash_id((new Project())->getTable())->decodeHex($id);
+        $project_id = $id === Project::LOCALISER_ID ? $id : hash_id((new Project())->getTable())->decodeHex($id);
 
         $cacheKey = sprintf("project_%s_languages", $project_id);
 
