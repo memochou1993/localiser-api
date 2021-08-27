@@ -18,7 +18,7 @@ A self-hosting localization tool.
 
 ## Version Control
 
-Download locale files to porject with [Localiser CLI](https://github.com/memochou1993/localiser-cli) easily.
+Download locale files to project with [Localiser CLI](https://github.com/memochou1993/localiser-cli) easily.
 
 ## Roles
 
@@ -48,8 +48,6 @@ Download locale files to porject with [Localiser CLI](https://github.com/memocho
 | `VALUE_CREATE`    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
 | `VALUE_UPDATE`    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
 | `VALUE_DELETE`    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
-
-
 
 ## Development
 
