@@ -1,10 +1,55 @@
 # Localiser
 
-A self-hosted localization tool.
+A self-hosting localization tool.
 
 ## Requirements
 
 - PHP ^7.3
+
+## Usage
+
+### Fetch Cached Translations
+
+`GET` `/api/project/:id/cache/values`
+
+### Delete Cached Translations
+
+`DELETE` `/api/project/:id/cache/values`
+
+## Version Control
+
+Download locale files to porject with [Localiser CLI](https://github.com/memochou1993/localiser-cli) easily.
+
+## Roles
+
+### System Scope
+
+| Ability          |       Admin        |        User        |
+| ---------------- |:------------------:|:------------------:|
+| `USER_VIEW`      | :heavy_check_mark: | :heavy_check_mark: |
+| `USER_CREATE`    | :heavy_check_mark: |                    |
+| `USER_UPDATE`    | :heavy_check_mark: |                    |
+| `USER_DELETE`    | :heavy_check_mark: |                    |
+| `PROJECT_VIEW`   | :heavy_check_mark: | :heavy_check_mark: |
+| `PROJECT_CREATE` | :heavy_check_mark: | :heavy_check_mark: |
+
+### Project Scope
+
+| Ability           |       Owner        |     Maintainer     |      Reporter      | Guest |
+| ----------------- |:------------------:|:------------------:|:------------------:|:-----:|
+| `PROJECT_UPDATE`  | :heavy_check_mark: | :heavy_check_mark: |                    |       |
+| `PROJECT_DELETE`  | :heavy_check_mark: |                    |                    |       |
+| `LANGUAGE_CREATE` | :heavy_check_mark: |                    |                    |       |
+| `LANGUAGE_UPDATE` | :heavy_check_mark: | :heavy_check_mark: |                    |       |
+| `LANGUAGE_DELETE` | :heavy_check_mark: |                    |                    |       |
+| `KEY_CREATE`      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
+| `KEY_UPDATE`      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
+| `KEY_DELETE`      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
+| `VALUE_CREATE`    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
+| `VALUE_UPDATE`    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
+| `VALUE_DELETE`    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |       |
+
+
 
 ## Development
 
