@@ -6,7 +6,7 @@ A self-hosted localization tool.
 
 - PHP ^7.3
 
-## Installation
+## Development
 
 Download the master branch.
 
@@ -20,7 +20,7 @@ Copy `.env.example` to `.env`.
 cp .env.example .env
 ```
 
-Install the Composer dependencies.
+Install the dependencies.
 
 ```BASH
 composer install
@@ -32,8 +32,20 @@ Set a random secure application key.
 php artisan key:generate
 ```
 
+Create a database.
+
+```MYSQL
+CREATE DATABASE `localiser`;
+```
+
 Run the migrations and database seeds.
 
 ```BASH
 php artisan migrate --seed
+```
+
+Start a development server.
+
+```BASH
+php artisan serve
 ```
