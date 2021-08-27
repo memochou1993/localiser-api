@@ -78,6 +78,7 @@ return [
             Ability::KEY_DELETE,
             Ability::VALUE_CREATE,
             Ability::VALUE_UPDATE,
+            Ability::VALUE_DELETE,
         ],
     ],
 
