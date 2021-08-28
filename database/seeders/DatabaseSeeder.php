@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         /** @var User $admin */
-        $admin = User::factory()->create([
+        $admin = User::query()->create([
             'name' => 'root',
             'email' => 'root@email.com',
             'password' => 'root',
