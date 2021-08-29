@@ -3,8 +3,8 @@
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectCacheLanguageController;
-use App\Http\Controllers\ProjectCacheValueController;
+use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProjectUserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
@@ -14,18 +14,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('tokens', [TokenController::class, 'store']);
-Route::get('projects/{project}/cache/languages', [ProjectCacheLanguageController::class, 'index']);
-Route::get('projects/{project}/cache/values', [ProjectCacheValueController::class, 'index']);
 
-Route::middleware([
-    'auth:sanctum',
-])->group(function () {
-    Route::get('user', function (Request $request) { return new UserResource($request->user()); });
+Route::prefix('projects/{project}')->group(function () {
+    Route::get('locales', [LocaleController::class, 'index']);
+    Route::delete('locales', [LocaleController::class, 'destroy']);
+    Route::get('messages', [MessageController::class, 'index']);
+    Route::delete('messages', [MessageController::class, 'destroy']);
+});
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('user', function (Request $r) { return new UserResource($r->user()); });
     Route::delete('tokens', [TokenController::class, 'destroy']);
-    Route::delete('projects/{project}/cache/languages', [ProjectCacheLanguageController::class, 'destroy']);
-    Route::delete('projects/{project}/cache/values', [ProjectCacheValueController::class, 'destroy']);
-
     Route::apiResource('users', UserController::class);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('projects.languages', LanguageController::class)->shallow();

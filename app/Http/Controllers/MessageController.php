@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProjectCacheValueController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +21,7 @@ class ProjectCacheValueController extends Controller
      */
     public function index(Request $request, string $id): JsonResponse
     {
-        $project_id = $id === Project::LOCALISER_ID
-            ? $id
-            : hash_id((new Project())->getTable())->decodeHex($id);
+        $project_id = $id === Project::LOCALISER_ID ? $id : hash_id((new Project())->getTable())->decodeHex($id);
 
         $request->validate([
             'locale' => 'required',
