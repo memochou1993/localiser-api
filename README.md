@@ -8,13 +8,21 @@ A self-hosting localization tool.
 
 ## Usage
 
-### Fetch Cached Translations
+### Fetch cached locales
 
-`GET` `/api/project/:id/cache/values`
+`GET` `/api/project/:id/locales`
 
-### Delete Cached Translations
+### Delete cached locales
 
-`DELETE` `/api/project/:id/cache/values`
+`DELETE` `/api/project/:id/locales`
+
+### Fetch cached translations
+
+`GET` `/api/project/:id/messages`
+
+### Delete cached translations
+
+`DELETE` `/api/project/:id/messages`
 
 ## Version Control
 
